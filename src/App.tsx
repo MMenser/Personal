@@ -15,12 +15,6 @@ interface Star {
   brightness: number;
 }
 
-interface Constellation {
-  id: number;
-  stars: { x: number; y: number }[];
-  connections: { from: number; to: number }[];
-}
-
 interface MountainBackgroundProps {
   layers?: number;
   className?: string;
