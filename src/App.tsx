@@ -91,7 +91,7 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
     >
       {/* Stars SVG - Takes up more space now */}
       <svg
-        className="absolute inset-0 w-full h-3/4"
+        className="inset-0 w-full h-1/4"
         viewBox="0 0 1200 300"
         preserveAspectRatio="xMidYMid slice"
       >
@@ -109,37 +109,19 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
             {star.brightness > 0.7 && (
               <animate
                 attributeName="opacity"
-                values={`${star.brightness};${star.brightness * 0.3};${
-                  star.brightness
-                }`}
+                values={`${star.brightness};${star.brightness * 0.3};${star.brightness
+                  }`}
                 dur={`${2 + Math.random() * 3}s`}
                 repeatCount="indefinite"
               />
             )}
           </circle>
         ))}
-
-        {/* Your Name - Adjusted position for new viewBox */}
-        <text
-          x="600"
-          y="75"
-          textAnchor="middle"
-          fill="white"
-          fontSize="36"
-          fontWeight="bold"
-          opacity="0.9"
-          fontFamily="serif"
-        >
-          Mason Menser
-          {/* Subtle glow effect */}
-          <animate
-            attributeName="opacity"
-            values="0.7;1;0.7"
-            dur="4s"
-            repeatCount="indefinite"
-          />
-        </text>
       </svg>
+      {/* Your Name - Adjusted position for new viewBox */}
+      <div className="absolute left-1/2 -translate-x-1/2 text-5xl font-bold text-white">
+        Mason Menser
+      </div>
 
       {/* Mountains SVG - Now only takes up bottom 1/4 of screen */}
       <svg
