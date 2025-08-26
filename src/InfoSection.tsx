@@ -1,30 +1,9 @@
+// InfoSection.tsx
 import React, { useState, useEffect } from 'react';
-
-// Define types for better type safety
-type SectionKey = 'about' | 'skills' | 'projects';
-
-interface SectionData {
-  title: string;
-  content: string;
-}
-
-interface ProjectData {
-  id: string;
-  title: string;
-  github: string | null;
-  youtube: string | null;
-  description: string;
-  tech: string;
-  details: string;
-  color: {
-    bg: string;
-    text: string;
-    hover: string;
-    gradient: string;
-  };
-}
-
-type SectionDataMap = Record<SectionKey, SectionData>;
+import type { SectionKey, SectionData, ProjectData, SectionDataMap } from './types';
+import About from './About';
+import Skills from './Skills';
+import Projects from './Projects';
 
 const InfoSection: React.FC = () => {
   const [selectedSection, setSelectedSection] = useState<SectionKey | null>(null);
@@ -121,7 +100,7 @@ const InfoSection: React.FC = () => {
       setIsTyping(true);
 
       let currentIndex = 0;
-      const typingSpeed = 20;
+      const typingSpeed = 15;
 
       const typeInterval = setInterval(() => {
         if (currentIndex < fullText.length) {
@@ -140,7 +119,7 @@ const InfoSection: React.FC = () => {
       setIsTyping(true);
 
       let currentIndex = 0;
-      const typingSpeed = 20;
+      const typingSpeed = 15;
 
       const typeInterval = setInterval(() => {
         if (currentIndex < fullText.length) {
@@ -173,6 +152,10 @@ const InfoSection: React.FC = () => {
 
   const handleProjectClick = (projectId: string): void => {
     setSelectedProject(selectedProject === projectId ? null : projectId);
+  };
+
+  const handleBackToProjects = (): void => {
+    setSelectedProject(null);
   };
 
   const getSectionColorClasses = (section: SectionKey) => {
@@ -224,100 +207,45 @@ const InfoSection: React.FC = () => {
     );
   };
 
-  const getContentColorClass = (section: SectionKey): string => {
-    const colorMap = {
-      about: 'text-cyan-300',
-      skills: 'text-green-300',
-      projects: 'text-pink-300'
-    };
-    return colorMap[section];
-  };
-
-  const getGradientClass = (section: SectionKey): string => {
-    const gradientMap = {
-      about: 'bg-gradient-to-r from-cyan-400 to-blue-500',
-      skills: 'bg-gradient-to-r from-green-400 to-emerald-500',
-      projects: 'bg-gradient-to-r from-pink-400 to-purple-500'
-    };
-    return gradientMap[section];
-  };
-
-  const renderProjectBoxes = () => {
-    return (
-      <div className="grid grid-cols-2 gap-4 w-full">
-        {projectsData.map((project) => (
-          <button
-            key={project.id}
-            onClick={() => handleProjectClick(project.id)}
-            className={`${project.color.bg} ${project.color.hover} backdrop-blur-lg border border-white/20 rounded-xl p-6 text-left transition-all duration-300 transform hover:scale-105 hover:shadow-lg`}
-          >
-            <div className={`text-2xl font-bold mb-2 ${project.color.text}`}>
-              {project.title}
+  const renderContent = () => {
+    switch (selectedSection) {
+      case 'about':
+        return (
+          <About
+            displayedText={displayedText}
+            isTyping={isTyping}
+            onClose={() => setSelectedSection(null)}
+          />
+        );
+      case 'skills':
+        return (
+          <Skills
+            displayedText={displayedText}
+            isTyping={isTyping}
+            onClose={() => setSelectedSection(null)}
+          />
+        );
+      case 'projects':
+        return (
+          <Projects
+            selectedProject={selectedProject}
+            displayedText={displayedText}
+            isTyping={isTyping}
+            onClose={() => setSelectedSection(null)}
+            onProjectClick={handleProjectClick}
+            onBackToProjects={handleBackToProjects}
+            projectsData={projectsData}
+          />
+        );
+      default:
+        return (
+          <div className="flex items-center justify-center h-80">
+            <div className="text-center text-gray-300 text-lg animate-pulse">
+              Click on any section above to learn more
             </div>
-            <div className="text-gray-300 text-sm mb-3">
-              {project.description}
-            </div>
-            <div className="text-gray-400 text-xs font-mono">
-              {project.tech}
-            </div>
-          </button>
-        ))}
-      </div>
-    );
-  };
-
-  const renderExpandedProject = () => {
-    const project = projectsData.find(p => p.id === selectedProject);
-    if (!project) return null;
-
-    return (
-      <div className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-2xl animate-in fade-in duration-300">
-        {/* Back button */}
-        <button
-          onClick={() => setSelectedProject(null)}
-          className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-200 mb-6"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to Projects
-        </button>
-
-        <div className={`flex justify-between items-center text-3xl font-bold mb-4 ${project.color.text}`}>
-          {project.title}
-          {project.github ? <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline hover:text-cyan-200 ml-2"
-          >
-            GitHub
-          </a> : <div></div>}
-          {project.youtube ? <a
-            href={project.youtube}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline hover:text-cyan-200 ml-2"
-          >
-            Demo
-          </a> : <div></div>}
-        </div>
-
-        <div className="text-gray-400 text-sm font-mono mb-6">
-          {project.tech}
-        </div>
-
-        <div className="text-lg leading-relaxed text-gray-100">
-          {displayedText}
-          {isTyping && (
-            <span className="inline-block w-0.5 h-5 bg-white ml-1 animate-pulse"></span>
-          )}
-        </div>
-
-        {/* Decorative gradient line */}
-        <div className={`w-24 h-1 mt-6 rounded-full bg-gradient-to-r ${project.color.gradient}`}></div>
-      </div>
-    );
+          </div>
+        );
+    }
   };
 
   return (
@@ -331,70 +259,7 @@ const InfoSection: React.FC = () => {
 
       {/* Info Display Box - Always present to maintain layout */}
       <div className="w-full max-w-4xl mx-auto px-6 min-h-80">
-        {selectedSection === 'projects' && selectedProject ? (
-          renderExpandedProject()
-        ) : selectedSection === 'projects' ? (
-          <div className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-2xl animate-in fade-in duration-300">
-            {/* Close button */}
-            <button
-              onClick={() => setSelectedSection(null)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors duration-200"
-              aria-label="Close section"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            <div className="pr-8">
-              <h2 className="text-3xl font-bold mb-6 text-pink-300">
-                My Projects
-              </h2>
-              <p className="text-gray-300 mb-6">Click on any project below to learn more:</p>
-              {renderProjectBoxes()}
-            </div>
-          </div>
-        ) : selectedSection ? (
-          <div
-            className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-2xl animate-in fade-in duration-300"
-            role="tabpanel"
-            id={`${selectedSection}-content`}
-          >
-            {/* Close button */}
-            <button
-              onClick={() => setSelectedSection(null)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors duration-200"
-              aria-label="Close section"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            {/* Content */}
-            <div className="pr-8">
-              <h2 className={`text-3xl font-bold mb-6 ${getContentColorClass(selectedSection)}`}>
-                {sectionData[selectedSection].title}
-              </h2>
-
-              <div className="text-lg leading-relaxed text-gray-100 whitespace-pre-line">
-                {displayedText}
-                {isTyping && (
-                  <span className="inline-block w-0.5 h-5 bg-white ml-1 animate-pulse"></span>
-                )}
-              </div>
-
-              {/* Decorative gradient line */}
-              <div className={`w-24 h-1 mt-6 rounded-full ${getGradientClass(selectedSection)}`}></div>
-            </div>
-          </div>
-        ) : (
-          <div className="flex items-center justify-center h-80">
-            <div className="text-center text-gray-300 text-lg animate-pulse">
-              Click on any section above to learn more
-            </div>
-          </div>
-        )}
+        {renderContent()}
       </div>
     </div>
   );

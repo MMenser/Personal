@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import InfoSection from "./InfoSection";
+import headshot from './assets/BlackbgHeadshot.png'
 
 interface Mountain {
   id: number;
@@ -16,6 +17,16 @@ interface Star {
   brightness: number;
 }
 
+interface Planet {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  rings: boolean;
+  color: string;
+  ringColor: string;
+}
+
 interface MountainBackgroundProps {
   layers?: number;
   className?: string;
@@ -27,6 +38,23 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
 }) => {
   const [mountains, setMountains] = useState<Mountain[]>([]);
   const [stars, setStars] = useState<Star[]>([]);
+  const [planets, setPlanets] = useState<Planet[]>([]);
+
+  const planetColor = [
+    '#43DF96', // Green
+    '#6134CB', // Purple
+    '#F251D2', // Pink
+    '#7EDBF7', // Teal
+    '#D06A2F', // Orange
+  ];
+
+  const ringColors = [
+    '#FFD700', // Gold
+    '#E6E6FA', // Lavender
+    '#98FB98', // Pale Green
+    '#F0E68C', // Khaki
+    '#DDA0DD', // Plum
+  ];
 
   const generateMountains = (layers: number = 2): Mountain[] => {
     const mountainLayers: Mountain[] = [];
@@ -64,7 +92,7 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
     return mountainLayers;
   };
 
-  const generateStars = (count: number = 50): Star[] => {
+  const generateStars = (count = 50): Star[] => {
     const starArray: Star[] = [];
 
     for (let i = 0; i < count; i++) {
@@ -80,18 +108,88 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
     return starArray;
   };
 
+  const generatePlanets = (count = 3): Planet[] => {
+    const planetArr: Planet[] = [];
+    for (let i = 0; i < count; i++) {
+      const planetColorIndex = Math.floor(Math.random() * planetColor.length);
+      planetArr.push({
+        id: i,
+        x: Math.random() * 1200, // Full width
+        y: Math.random() * 150, // Keep planets in upper area only
+        size: 15 + Math.random() * 4, // Size between 15-19
+        rings: true, // Always have rings
+        color: planetColor[planetColorIndex],
+        ringColor: ringColors[Math.floor(Math.random() * ringColors.length)]
+      });
+    }
+    return planetArr;
+  };
+
+  const renderPlanetWithRings = (planet: Planet) => {
+    // Planet with rings
+    const ringRadius1 = planet.size + 5;
+    const ringRadius2 = planet.size + 8;
+    const ringRadius3 = planet.size + 11;
+
+    return (
+      <g key={`planet-group-${planet.id}`}>
+        {/* Ring 1 - Outermost */}
+        <ellipse
+          cx={planet.x}
+          cy={planet.y}
+          rx={ringRadius3}
+          ry={ringRadius3 * 0.2}
+          fill="none"
+          stroke={planet.ringColor}
+          strokeWidth="1"
+          opacity="0.6"
+        />
+        {/* Ring 2 - Middle */}
+        <ellipse
+          cx={planet.x}
+          cy={planet.y}
+          rx={ringRadius2}
+          ry={ringRadius2 * 0.2}
+          fill="none"
+          stroke={planet.ringColor}
+          strokeWidth="1"
+          opacity="0.8"
+        />
+        {/* Ring 3 - Innermost */}
+        <ellipse
+          cx={planet.x}
+          cy={planet.y}
+          rx={ringRadius1}
+          ry={ringRadius1 * 0.2}
+          fill="none"
+          stroke={planet.ringColor}
+          strokeWidth="1.5"
+          opacity="1"
+        />
+        {/* The planet itself - rendered on top of rings */}
+        <circle
+          cx={planet.x}
+          cy={planet.y}
+          r={planet.size}
+          fill={planet.color}
+        />
+      </g>
+    );
+  };
+
   useEffect(() => {
     setMountains(generateMountains(layers));
     setStars(generateStars());
+    setPlanets(generatePlanets());
   }, [layers]);
 
   return (
     <div
-      className={`relative w-full h-screen overflow-hidden bg-black ${className}`}
+      className={`flex flex-col w-full h-full overflow-hidden bg-black ${className}`}
     >
       {/* Stars SVG - Takes up more space now */}
       <svg
-        className="inset-0 w-full h-1/4"
+        className="inset-0 w-full h-full"
         viewBox="0 0 1200 300"
         preserveAspectRatio="xMidYMid slice"
       >
@@ -109,23 +207,37 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
             {star.brightness > 0.7 && (
               <animate
                 attributeName="opacity"
-                values={`${star.brightness};${star.brightness * 0.3};${star.brightness
-                  }`}
+                values={`${star.brightness};${star.brightness * 0.3};${star.brightness}`}
                 dur={`${2 + Math.random() * 3}s`}
                 repeatCount="indefinite"
               />
             )}
           </circle>
         ))}
+
+        {/* Planets with optional rings */}
+        {planets.map(renderPlanetWithRings)}
       </svg>
-      {/* Your Name - Adjusted position for new viewBox */}
-      <div className="absolute left-1/2 -translate-x-1/2 text-5xl font-bold text-white">
-        Mason Menser
+
+      <div className=" flex-col">
+        {/* Your Name - Adjusted position for new viewBox */}
+        <div className="absolute left-1/2 -translate-x-1/2 text-5xl font-bold text-white">
+          Mason Menser
+        </div>
+        <img className='flex items-center justify-center' src={headshot} width={250} height={250} alt="Headshot"></img>
+        {/* Content overlay - You'll need to import your InfoSection component */}
+        <div className=" inset-0 flex items-center justify-center">
+          <div className="text-white text-center">
+            <InfoSection></InfoSection>
+          </div>
+        </div>
       </div>
+
+
 
       {/* Mountains SVG - Now only takes up bottom 1/4 of screen */}
       <svg
-        className="absolute bottom-0 left-0 w-full h-1/4"
+        className="bottom-0 left-0 w-full h-1/4"
         viewBox="0 0 1200 400"
         preserveAspectRatio="none"
       >
@@ -139,8 +251,7 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
         ))}
       </svg>
 
-      {/* Content overlay */}
-      <InfoSection></InfoSection>
+
     </div>
   );
 };
