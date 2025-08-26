@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import InfoSection from "./InfoSection";
-import headshot from './assets/BlackbgHeadshot.png'
+import headshot from "./assets/BlackbgHeadshot.png";
 
 interface Mountain {
   id: number;
@@ -41,19 +41,19 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
   const [planets, setPlanets] = useState<Planet[]>([]);
 
   const planetColor = [
-    '#43DF96', // Green
-    '#6134CB', // Purple
-    '#F251D2', // Pink
-    '#7EDBF7', // Teal
-    '#D06A2F', // Orange
+    "#43DF96", // Green
+    "#6134CB", // Purple
+    "#F251D2", // Pink
+    "#7EDBF7", // Teal
+    "#D06A2F", // Orange
   ];
 
   const ringColors = [
-    '#FFD700', // Gold
-    '#E6E6FA', // Lavender
-    '#98FB98', // Pale Green
-    '#F0E68C', // Khaki
-    '#DDA0DD', // Plum
+    "#FFD700", // Gold
+    "#E6E6FA", // Lavender
+    "#98FB98", // Pale Green
+    "#F0E68C", // Khaki
+    "#DDA0DD", // Plum
   ];
 
   const generateMountains = (layers: number = 2): Mountain[] => {
@@ -114,12 +114,12 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
       const planetColorIndex = Math.floor(Math.random() * planetColor.length);
       planetArr.push({
         id: i,
-        x: Math.random() * 1200, // Full width
-        y: Math.random() * 150, // Keep planets in upper area only
+        x: Math.random() * 1000, // Less than full width to make sure they appear 100% in view
+        y: Math.random() * 100, // Same for height
         size: 15 + Math.random() * 4, // Size between 15-19
         rings: true, // Always have rings
         color: planetColor[planetColorIndex],
-        ringColor: ringColors[Math.floor(Math.random() * ringColors.length)]
+        ringColor: ringColors[Math.floor(Math.random() * ringColors.length)],
       });
     }
     return planetArr;
@@ -185,12 +185,12 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
 
   return (
     <div
-      className={`flex flex-col w-full h-full overflow-hidden bg-black ${className}`}
+      className={`relative h-screen w-screen overflow-hidden bg-black ${className}`}
     >
-      {/* Stars SVG - Takes up more space now */}
+      {/* Stars SVG - Background positioned at top */}
       <svg
-        className="inset-0 w-full h-full"
-        viewBox="0 0 1200 300"
+        className="absolute top-0 left-0 w-full z-0"
+        viewBox="0 0 1200 200"
         preserveAspectRatio="xMidYMid slice"
       >
         {/* Individual Stars */}
@@ -207,38 +207,23 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
             {star.brightness > 0.7 && (
               <animate
                 attributeName="opacity"
-                values={`${star.brightness};${star.brightness * 0.3};${star.brightness}`}
+                values={`${star.brightness};${star.brightness * 0.3};${
+                  star.brightness
+                }`}
                 dur={`${2 + Math.random() * 3}s`}
                 repeatCount="indefinite"
               />
             )}
           </circle>
         ))}
-
         {/* Planets with optional rings */}
         {planets.map(renderPlanetWithRings)}
       </svg>
 
-      <div className=" flex-col">
-        {/* Your Name - Adjusted position for new viewBox */}
-        <div className="absolute left-1/2 -translate-x-1/2 text-5xl font-bold text-white">
-          Mason Menser
-        </div>
-        <img className='flex items-center justify-center' src={headshot} width={250} height={250} alt="Headshot"></img>
-        {/* Content overlay - You'll need to import your InfoSection component */}
-        <div className=" inset-0 flex items-center justify-center">
-          <div className="text-white text-center">
-            <InfoSection></InfoSection>
-          </div>
-        </div>
-      </div>
-
-
-
-      {/* Mountains SVG - Now only takes up bottom 1/4 of screen */}
+      {/* Mountains SVG - Background positioned at bottom */}
       <svg
-        className="bottom-0 left-0 w-full h-1/4"
-        viewBox="0 0 1200 400"
+        className="absolute bottom-0 left-0 w-full z-0"
+        viewBox="0 0 1200 250"
         preserveAspectRatio="none"
       >
         {mountains.map((mountain) => (
@@ -251,7 +236,27 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
         ))}
       </svg>
 
+      {/* Main Content - Centered and above background */}
+      <div className="relative z-10 h-full flex flex-col items-center justify-center space-y-6">
+        {/* Your Name */}
+        <div className="text-5xl font-bold text-white text-center">
+          Mason Menser
+        </div>
 
+        {/* Headshot */}
+        <img
+          className="rounded-full"
+          src={headshot}
+          width={250}
+          height={250}
+          alt="Headshot"
+        />
+
+        {/* Content overlay */}
+        <div className="text-white text-center">
+          <InfoSection />
+        </div>
+      </div>
     </div>
   );
 };

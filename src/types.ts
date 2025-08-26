@@ -10,6 +10,7 @@ export interface ProjectData {
   id: string;
   title: string;
   github: string | null;
+  github2: string | null;
   youtube: string | null;
   description: string;
   tech: string;
