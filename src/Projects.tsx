@@ -13,6 +13,41 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
 
   const projectsData: ProjectData[] = [
     {
+      id: "potato",
+      title: "Link Systems Research Project",
+      github: "https://github.com/MMenser/Smart-Farming",
+      github2: "https://github.com/MMenser/Potato-React",
+      youtube: null,
+      description: "Control Systems & Full-Stack Web App",
+      tech: "C++ • Python • Flask • Nginx • PostgreSQL",
+      details: `This project has two dimensions. One is the control systems. I designed a control system with Ardunio, Raspberry Pi, temperature sensors, and stepper motors to dynamically control the temperature of an enclosure to study the effects of changing temperatures on potatos in Eastern Washington. 
+      Second is the web application. The control system sends data via LoRa modules to the Pi. The Pi sends the data to Postgres and a Flask backend. Users can download data and send commands back to the control systems from the frontend React app
+      Deployed in the field. Learnt so much about real-world development, constraints, and difference between test & prod environments in Link systems. Version 2 coming this year!`,
+      color: {
+        bg: "bg-gradient-to-br from-emerald-500/20 to-teal-600/20",
+        text: "text-emerald-300",
+        hover: "hover:from-emerald-500/30 hover:to-teal-600/30",
+        gradient: "from-emerald-400 to-teal-500",
+      },
+    },
+    {
+      id: "wiki",
+      title: "WikiTube",
+      github: null,
+      github2: null,
+      youtube: null,
+      description: "Wikipedia Article Recommender",
+      tech: "React Native • NodeJS • PostgreSQL • Vector Embeddings",
+      details:
+        "An iOS application that recommends Wikipedia articles to users. Functions similar to YouTube, where user's view history affects what articles are recommended. Popular articles are also served. Currently in progress. Porting database from local to EC2 is causing some issues.",
+      color: {
+        bg: "bg-gradient-to-br from-pink-500/20 to-rose-600/20",
+        text: "text-pink-300",
+        hover: "hover:from-pink-500/30 hover:to-rose-600/30",
+        gradient: "from-pink-400 to-rose-500",
+      },
+    },
+    {
       id: "spreadsheet",
       title: "C# Spreadsheet",
       github: "https://github.com/MMenser/CptS321",
@@ -30,50 +65,15 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
       },
     },
     {
-      id: "potato",
-      title: "Embedded Systems Research Project",
-      github: "https://github.com/MMenser/Smart-Farming",
-      github2: "https://github.com/MMenser/Potato-React",
-      youtube: null,
-      description: "Control systems & full-stack web app",
-      tech: "C++ • Python • Flask • Nginx • PostgreSQL",
-      details: `This project has two dimensions. One is the control systems. I designed a control system with Ardunio, Raspberry Pi, temperature sensors, and stepper motors to dynamically control the temperature of an enclosure to study the effects of changing temperatures on potatos in Eastern Washington. 
-      Second is the web application. The control system sends data via LoRa modules to the Pi. The Pi sends the data to Postgres and a Flask backend. Users can download data and send commands back to the control systems from the frontend React app
-      Deployed in the field. Learnt so much about real-world development, constraints, and difference between test & prod environments in embedded systems. Version 2 coming this year!`,
-      color: {
-        bg: "bg-gradient-to-br from-emerald-500/20 to-teal-600/20",
-        text: "text-emerald-300",
-        hover: "hover:from-emerald-500/30 hover:to-teal-600/30",
-        gradient: "from-emerald-400 to-teal-500",
-      },
-    },
-    {
-      id: "portfolio",
-      title: "📱 Mobile Portfolio",
+      id: "link",
+      title: "Link",
       github: null,
       github2: null,
       youtube: null,
-      description: "Responsive design showcase",
-      tech: "React • Tailwind CSS • Framer Motion",
+      description: "Social media website for WSU students.",
+      tech: "React Native • PostgreSQL • NodeJS • Firebase Auth",
       details:
-        "A mobile-first portfolio website showcasing modern design principles. Built with responsive layouts, smooth animations, and optimized performance across all device sizes with accessibility features.",
-      color: {
-        bg: "bg-gradient-to-br from-pink-500/20 to-rose-600/20",
-        text: "text-pink-300",
-        hover: "hover:from-pink-500/30 hover:to-rose-600/30",
-        gradient: "from-pink-400 to-rose-500",
-      },
-    },
-    {
-      id: "embedded",
-      title: "⚡ IoT Controller",
-      github: null,
-      github2: null,
-      youtube: null,
-      description: "Embedded systems project",
-      tech: "C/C++ • UART • I2C • SPI",
-      details:
-        "An embedded systems project featuring microcontroller programming and sensor integration. Implements communication protocols for IoT device control with real-time data processing and wireless connectivity.",
+        "",
       color: {
         bg: "bg-gradient-to-br from-orange-500/20 to-red-600/20",
         text: "text-orange-300",
@@ -150,7 +150,7 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
     if (!project) return null;
 
     return (
-      <div className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-2xl animate-in fade-in duration-300">
+      <div className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-2xl animate-in duration-300">
         {/* Back button */}
         <button
           onClick={handleBackToProjects}
@@ -234,7 +234,7 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
   }
 
   return (
-    <div className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-2xl animate-in fade-in duration-300">
+    <div className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-2xl animate-in no-fade duration-300">
       {/* Close button */}
       <button
         onClick={onClose}

@@ -108,16 +108,30 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
     return starArray;
   };
 
-  const generatePlanets = (count = 3): Planet[] => {
+  const generatePlanets = (count = 4): Planet[] => {
     const planetArr: Planet[] = [];
+
+    // Use the SVG viewBox dimensions for the stars SVG where planets are rendered
+    const svgWidth = 1200; // From your viewBox="0 0 1200 200"
+    const svgHeight = 200; // From your viewBox="0 0 1200 200"
+
     for (let i = 0; i < count; i++) {
       const planetColorIndex = Math.floor(Math.random() * planetColor.length);
+      const size = 15 + Math.random() * 4; // Size between 15-19
+
+      // Account for planet radius AND ring size so nothing gets cut off
+      const maxRingSize = size + 11; // Your outermost ring radius
+      const minX = maxRingSize;
+      const maxX = svgWidth - maxRingSize;
+      const minY = maxRingSize;
+      const maxY = svgHeight - maxRingSize;
+
       planetArr.push({
         id: i,
-        x: Math.random() * 1000, // Less than full width to make sure they appear 100% in view
-        y: Math.random() * 100, // Same for height
-        size: 15 + Math.random() * 4, // Size between 15-19
-        rings: true, // Always have rings
+        x: minX + Math.random() * (maxX - minX),
+        y: minY + Math.random() * (maxY - minY),
+        size: size,
+        rings: true,
         color: planetColor[planetColorIndex],
         ringColor: ringColors[Math.floor(Math.random() * ringColors.length)],
       });
@@ -236,25 +250,29 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
         ))}
       </svg>
 
-      {/* Main Content - Centered and above background */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center space-y-6">
-        {/* Your Name */}
-        <div className="text-5xl font-bold text-white text-center">
-          Mason Menser
+      {/* Main Content - Fixed positioning to prevent movement */}
+      <div className="relative z-10 h-full">
+        {/* Fixed header content */}
+        <div className="absolute top-24 left-1/2 transform -translate-x-1/2 flex flex-col items-center space-y-6 -mt-15">
+<div className="text-6xl font-bold text-center fade-in">
+  <span className="text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] font-mono tracking-widest border-l-4 border-r-4 border-cyan-400 px-4 py-2 bg-black/30">
+    MASON MENSER
+  </span>
+</div>
+          <img
+            className="rounded-full fade-in"
+            src={headshot}
+            width={250}
+            height={250}
+            alt="Headshot"
+          />
         </div>
 
-        {/* Headshot */}
-        <img
-          className="rounded-full"
-          src={headshot}
-          width={250}
-          height={250}
-          alt="Headshot"
-        />
-
-        {/* Content overlay */}
-        <div className="text-white text-center">
-          <InfoSection />
+        {/* InfoSection positioned below header */}
+        <div className="absolute top-80 left-1/2 transform -translate-x-1/2 w-full max-w-4xl px-6 mt-15">
+          <div className="text-white text-center fade-in">
+            <InfoSection />
+          </div>
         </div>
       </div>
     </div>

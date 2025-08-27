@@ -52,7 +52,7 @@ const Skills: React.FC<SkillsProps> = ({ onClose }) => {
 
   return (
     <div
-      className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-2xl animate-in fade-in duration-300"
+      className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-2xl animate-in no-fade duration-300"
       role="tabpanel"
       id="skills-content"
     >
