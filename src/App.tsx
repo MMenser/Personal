@@ -110,10 +110,8 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
 
   const generatePlanets = (count = 4): Planet[] => {
     const planetArr: Planet[] = [];
-
-    // Use the SVG viewBox dimensions for the stars SVG where planets are rendered
-    const svgWidth = 1200; // From your viewBox="0 0 1200 200"
-    const svgHeight = 200; // From your viewBox="0 0 1200 200"
+    const svgWidth = 1200;
+    const svgHeight = 200;
 
     for (let i = 0; i < count; i++) {
       const planetColorIndex = Math.floor(Math.random() * planetColor.length);
@@ -199,7 +197,7 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
 
   return (
     <div
-      className={`relative h-screen w-screen overflow-scroll bg-black ${className}`}
+      className={`relative min-h-screen w-full overflow-auto bg-black ${className}`}
     >
       {/* Stars SVG - Background positioned at top */}
       <svg
@@ -250,15 +248,18 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
         ))}
       </svg>
 
-      {/* Main Content - Fixed positioning to prevent movement */}
-      <div className="relative z-10 h-full">
-        {/* Fixed header content */}
-        <div className="absolute top-24 left-1/2 transform -translate-x-1/2 flex flex-col items-center space-y-6 -mt-15">
-          <div className="text-6xl font-bold text-center fade-in">
-            <span className="text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] font-mono tracking-widest border-l-4 border-r-4 border-cyan-400 px-4 py-2 bg-black/30">
+      {/* Main Content - Responsive layout */}
+      <div className="relative z-10 min-h-screen flex flex-col">
+        {/* Header Section - Responsive spacing */}
+        <div className="flex-shrink-0 flex flex-col items-center pt-6 px-4 space-y-4 sm:space-y-6">
+          {/* Responsive Name */}
+          <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center fade-in">
+            <span className="text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] font-mono tracking-wider sm:tracking-widest border-l-2 border-r-2 sm:border-l-4 sm:border-r-4 border-cyan-400 px-2 sm:px-4 py-1 sm:py-2 bg-black/30">
               MASON MENSER
             </span>
           </div>
+          
+          {/* Responsive Headshot */}
           <img
             className="rounded-full fade-in"
             src={headshot}
@@ -268,10 +269,12 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
           />
         </div>
 
-        {/* InfoSection positioned below header */}
-        <div className="absolute top-80 left-1/2 transform -translate-x-1/2 w-full max-w-4xl px-6 mt-15">
-          <div className="text-white text-center fade-in">
-            <InfoSection />
+        {/* Content Section - Responsive and expandable */}
+        <div className="flex-1 flex justify-center px-4 sm:px-6 md:px-8 pt-6 sm:pt-6 md:pt-6 pb-8">
+          <div className="w-full max-w-xs sm:max-w-2xl md:max-w-4xl lg:max-w-6xl">
+            <div className="text-white text-center fade-in">
+              <InfoSection />
+            </div>
           </div>
         </div>
       </div>
