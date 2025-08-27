@@ -90,14 +90,14 @@ const InfoSection: React.FC = () => {
   return (
     <div className="relative z-10 flex flex-col items-center justify-center h-full text-white">
       {/* Navigation Buttons */}
-      <div className="flex flex-row mb-8" role="tablist">
+      <div className="flex flex-row space-x-10 mb-8" role="tablist">
         {renderSectionButton("about", "About Me")}
         {renderSectionButton("skills", "Skills")}
         {renderSectionButton("projects", "Projects")}
       </div>
 
       {/* Info Display Box - Always present to maintain layout */}
-      <div className="w-4xl px-6 h-full">
+      <div className="w-full px-6 h-full">
         <div className="h-full">{renderContent()}</div>
       </div>
     </div>

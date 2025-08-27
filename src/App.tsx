@@ -199,7 +199,7 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
 
   return (
     <div
-      className={`relative h-screen w-screen overflow-hidden bg-black ${className}`}
+      className={`relative h-screen w-screen overflow-scroll bg-black ${className}`}
     >
       {/* Stars SVG - Background positioned at top */}
       <svg
@@ -254,11 +254,11 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
       <div className="relative z-10 h-full">
         {/* Fixed header content */}
         <div className="absolute top-24 left-1/2 transform -translate-x-1/2 flex flex-col items-center space-y-6 -mt-15">
-<div className="text-6xl font-bold text-center fade-in">
-  <span className="text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] font-mono tracking-widest border-l-4 border-r-4 border-cyan-400 px-4 py-2 bg-black/30">
-    MASON MENSER
-  </span>
-</div>
+          <div className="text-6xl font-bold text-center fade-in">
+            <span className="text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] font-mono tracking-widest border-l-4 border-r-4 border-cyan-400 px-4 py-2 bg-black/30">
+              MASON MENSER
+            </span>
+          </div>
           <img
             className="rounded-full fade-in"
             src={headshot}
