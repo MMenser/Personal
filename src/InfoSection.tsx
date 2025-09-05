@@ -97,7 +97,7 @@ const InfoSection: React.FC = () => {
       </div>
 
       {/* Info Display Box - Always present to maintain layout */}
-      <div className="w-full px-6 h-full">
+      <div className="w-full h-full">
         <div className="h-full">{renderContent()}</div>
       </div>
     </div>

@@ -14,7 +14,7 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
   const projectsData: ProjectData[] = [
     {
       id: "potato",
-      title: "Link Systems Research Project",
+      title: "Research Project",
       github: "https://github.com/MMenser/Smart-Farming",
       github2: "https://github.com/MMenser/Potato-React",
       youtube: null,

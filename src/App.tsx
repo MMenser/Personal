@@ -270,7 +270,7 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
         </div>
 
         {/* Content Section - Responsive and expandable */}
-        <div className="flex-1 flex justify-center px-4 sm:px-6 md:px-8 pt-6 sm:pt-6 md:pt-6 pb-8">
+        <div className="flex-1 flex justify-center px-4 sm:px-10 md:px-10 pt-6 pb-8">
           <div className="w-full max-w-xs sm:max-w-2xl md:max-w-4xl lg:max-w-6xl">
             <div className="text-white text-center fade-in">
               <InfoSection />
