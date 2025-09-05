@@ -123,20 +123,20 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
 
   const renderProjectBoxes = () => {
     return (
-      <div className="grid grid-cols-2 gap-4 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full">
         {projectsData.map((project) => (
           <button
             key={project.id}
             onClick={() => handleProjectClick(project.id)}
-            className={`${project.color.bg} ${project.color.hover} backdrop-blur-lg border border-white/20 rounded-xl p-6 text-left transition-all duration-300 transform hover:scale-105 hover:shadow-lg`}
+            className={`${project.color.bg} ${project.color.hover} backdrop-blur-lg border border-white/20 rounded-xl p-4 sm:p-6 text-left transition-all duration-300 transform hover:scale-105 hover:shadow-lg min-h-0`}
           >
-            <div className={`text-2xl font-bold mb-2 ${project.color.text}`}>
+            <div className={`text-lg sm:text-xl md:text-2xl font-bold mb-2 ${project.color.text} leading-tight`}>
               {project.title}
             </div>
-            <div className="text-gray-300 text-sm mb-3">
+            <div className="text-gray-300 text-xs sm:text-sm mb-2 sm:mb-3 leading-tight">
               {project.description}
             </div>
-            <div className="text-gray-400 text-xs font-mono">
+            <div className="text-gray-400 text-xs font-mono leading-tight break-words">
               {project.tech}
             </div>
           </button>
@@ -150,14 +150,14 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
     if (!project) return null;
 
     return (
-      <div className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-2xl animate-in duration-300">
+      <div className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-2xl p-4 sm:p-6 md:p-8 shadow-2xl animate-in duration-300 overflow-hidden">
         {/* Back button */}
         <button
           onClick={handleBackToProjects}
-          className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-200 mb-6"
+          className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-200 mb-4 sm:mb-6"
         >
           <svg
-            className="w-5 h-5"
+            className="w-4 h-4 sm:w-5 sm:h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -169,20 +169,23 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          Back to Projects
+          <span className="text-sm sm:text-base">Back to Projects</span>
         </button>
 
-        <div
-          className={`flex justify-between items-center text-3xl font-bold mb-4 ${project.color.text}`}
-        >
-          {project.title}
-          <div className="flex gap-4">
+        {/* Title and Links */}
+        <div className="mb-4">
+          <div className={`text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 ${project.color.text} leading-tight break-words`}>
+            {project.title}
+          </div>
+          
+          {/* Links - Stack on mobile, inline on larger screens */}
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
             {project.github && (
               <a
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-lg underline hover:text-cyan-200"
+                className="text-sm sm:text-base md:text-lg underline hover:text-cyan-200 break-words"
               >
                 GitHub
               </a>
@@ -192,7 +195,7 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
                 href={project.github2}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-lg underline hover:text-cyan-200"
+                className="text-sm sm:text-base md:text-lg underline hover:text-cyan-200 break-words"
               >
                 Web App
               </a>
@@ -202,7 +205,7 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
                 href={project.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-lg underline hover:text-cyan-200"
+                className="text-sm sm:text-base md:text-lg underline hover:text-cyan-200 break-words"
               >
                 Demo
               </a>
@@ -210,20 +213,20 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
           </div>
         </div>
 
-        <div className="text-gray-400 text-sm font-mono mb-6">
+        <div className="text-gray-400 text-xs sm:text-sm font-mono mb-4 sm:mb-6 break-words">
           {project.tech}
         </div>
 
-        <div className="text-lg leading-relaxed text-gray-100">
+        <div className="text-sm sm:text-base md:text-lg leading-relaxed text-gray-100 break-words">
           {displayedText}
           {isTyping && (
-            <span className="inline-block w-0.5 h-5 bg-white ml-1 animate-pulse"></span>
+            <span className="inline-block w-0.5 h-4 sm:h-5 bg-white ml-1 animate-pulse"></span>
           )}
         </div>
 
         {/* Decorative gradient line */}
         <div
-          className={`w-full h-1 mt-6 rounded-full bg-gradient-to-r ${project.color.gradient}`}
+          className={`w-full h-1 mt-4 sm:mt-6 rounded-full bg-gradient-to-r ${project.color.gradient}`}
         ></div>
       </div>
     );
@@ -234,15 +237,15 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
   }
 
   return (
-    <div className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-2xl animate-in no-fade duration-300">
+    <div className="bg-black/40 backdrop-blur-lg border border-white/20 rounded-2xl p-4 sm:p-6 md:p-8 shadow-2xl animate-in no-fade duration-300 overflow-hidden">
       {/* Close button */}
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors duration-200"
+        className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-white transition-colors duration-200"
         aria-label="Close section"
       >
         <svg
-          className="w-6 h-6"
+          className="w-5 h-5 sm:w-6 sm:h-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -256,8 +259,8 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
         </svg>
       </button>
 
-      <div className="pr-8">
-        <h2 className="text-3xl font-bold mb-6 text-pink-300">My Projects</h2>
+      <div className="pr-6 sm:pr-8">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-pink-300 leading-tight">My Projects</h2>
         {renderProjectBoxes()}
       </div>
     </div>
