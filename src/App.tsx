@@ -278,7 +278,7 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
           </div>
         </div>
       </div>
-      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-20 text-white/50 text-xs">
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-20 text-white/50 text-xs hidden sm:block">
         Reload the page to regenerate the mountains, planets, and stars!
       </div>
     </div>
