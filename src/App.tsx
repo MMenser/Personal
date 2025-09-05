@@ -247,9 +247,8 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
           />
         ))}
       </svg>
-
       {/* Main Content - Responsive layout */}
-      <div className="relative z-10 min-h-screen flex flex-col">
+      <div className="relative z-10 min-h-[80vh] sm:min-h-screen flex flex-col">
         {/* Header Section - Responsive spacing */}
         <div className="flex-shrink-0 flex flex-col items-center pt-6 px-4 space-y-4 sm:space-y-6">
           {/* Responsive Name */}
