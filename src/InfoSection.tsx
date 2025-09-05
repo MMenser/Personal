@@ -1,4 +1,3 @@
-// InfoSection.tsx
 import React, { useState } from "react";
 import type { SectionKey } from "./types";
 import About from "./About";
@@ -47,13 +46,13 @@ const InfoSection: React.FC = () => {
     return (
       <button
         onClick={() => handleSectionClick(section)}
-        className={`relative px-8 py-4 text-2xl font-bold transition-all duration-300 transform hover:scale-105 ${
+        className={`relative px-3 sm:px-6 md:px-8 py-3 sm:py-4 text-lg sm:text-xl md:text-2xl font-bold transition-all duration-300 transform hover:scale-105 ${
           isSelected ? `${colors.text} scale-105` : `text-white ${colors.hover}`
-        }`}
+        } min-w-0 flex-shrink`}
         aria-expanded={isSelected}
         aria-controls={`${section}-content`}
       >
-        <span className="relative z-10">{label}</span>
+        <span className="relative z-10 truncate">{label}</span>
         {/* Glowing background effect */}
         <div
           className={`absolute inset-0 bg-gradient-to-r ${
@@ -88,14 +87,14 @@ const InfoSection: React.FC = () => {
   };
 
   return (
-    <div className="relative z-10 flex flex-col items-center justify-center h-full text-white">
+    <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4">
       {/* Navigation Buttons */}
-      <div className="flex flex-row space-x-10 mb-8" role="tablist">
+      <div className="flex flex-row space-x-2 sm:space-x-4 md:space-x-10 mb-8 w-full max-w-4xl justify-center" role="tablist">
         {renderSectionButton("about", "About Me")}
         {renderSectionButton("skills", "Skills")}
         {renderSectionButton("projects", "Projects")}
       </div>
-
+      
       {/* Info Display Box - Always present to maintain layout */}
       <div className="w-full h-full">
         <div className="h-full">{renderContent()}</div>
