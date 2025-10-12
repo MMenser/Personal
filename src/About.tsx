@@ -12,7 +12,7 @@ const About: React.FC<AboutProps> = ({ onClose }) => {
 
   const aboutContent = `I'm a computer science student at Washington State University. I'm in my senior year and hope to graduate in the Spring of 2026 with a B.S in Computer Science, Math Minor and History Minor.
   I was born and raised in the Seattle area and I love enjoying nature, playing soccer, rock climbing, reading, and spending time with friends.
-  A couple of my future goals include finishing the LOTR books (working through Return of the King), getting my motorcycle license, form a revenue-generating LLC, and benching 225lbs (210lbs PR). `;
+  A couple of my future goals include finishing publishing my first app to the iOS app store, getting my motorcycle license, form a revenue-generating LLC, and benching 225lbs.`;
 
   // Social media links
   const socialLinks = [

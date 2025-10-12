@@ -32,14 +32,14 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
     },
     {
       id: "wiki",
-      title: "WikiTube",
+      title: "MashWiki",
       github: null,
       github2: null,
       youtube: null,
       description: "Wikipedia Article Recommender",
       tech: "React Native • NodeJS • PostgreSQL • Vector Embeddings",
       details:
-        "An iOS application that recommends Wikipedia articles to users. Functions similar to YouTube, where user's view history affects what articles are recommended. Popular articles are also served. Currently in progress. Porting database from local to EC2 is causing some issues.",
+        "An web & mobile application that recommends Wikipedia articles to users. Functions similar to YouTube, where user's view history affects what articles are recommended. Popular articles are also served. Currently in progress. Porting database from local to EC2 is causing some issues.",
       color: {
         bg: "bg-gradient-to-br from-pink-500/20 to-rose-600/20",
         text: "text-pink-300",
