@@ -1,6 +1,6 @@
 // About.tsx
 import React, { useState, useEffect } from 'react';
-import { Instagram, Linkedin, Github, ExternalLink } from 'lucide-react';
+import { Instagram, Linkedin, Github, Badge } from 'lucide-react';
 
 interface AboutProps {
   onClose: () => void;
@@ -12,7 +12,7 @@ const About: React.FC<AboutProps> = ({ onClose }) => {
 
   const aboutContent = `I'm a computer science student at Washington State University. I'm in my senior year and hope to graduate in the Spring of 2026 with a B.S in Computer Science, Math Minor and History Minor.
   I was born and raised in the Seattle area and I love enjoying nature, playing soccer, rock climbing, reading, and spending time with friends.
-  A couple of my future goals include finishing publishing my first app to the iOS app store, getting my motorcycle license, form a revenue-generating LLC, and benching 225lbs.`;
+  A couple of my future goals include finishing publishing my first app to the iOS app store, getting my motorcycle license, and graduating university.`;
 
   // Social media links
   const socialLinks = [
@@ -36,6 +36,13 @@ const About: React.FC<AboutProps> = ({ onClose }) => {
       icon: Instagram,
       color: "text-pink-400 hover:text-pink-300",
       bgHover: "hover:bg-pink-600/20"
+    }, 
+    {
+      name: "Resume",
+      url: "/CV.pdf",
+      icon: Badge,
+      color: "text-green-400 hover:text-green-300",
+      bgHover: "hover:bg-green-600/20"
     }
   ];
 
@@ -81,11 +88,6 @@ const About: React.FC<AboutProps> = ({ onClose }) => {
                   {social.name}
                   <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
                 </div>
-                {/* External link indicator */}
-                <ExternalLink 
-                  size={10} 
-                  className="absolute -top-1 -right-1 opacity-0 group-hover:opacity-70 transition-opacity duration-200" 
-                />
               </a>
             );
           })}
