@@ -1,14 +1,11 @@
 // Skills.tsx
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 interface SkillsProps {
   onClose: () => void;
 }
 
 const Skills: React.FC<SkillsProps> = ({ onClose }) => {
-  const [displayedText, setDisplayedText] = useState<string>('');
-  const [localIsTyping, setLocalIsTyping] = useState<boolean>(false);
-  
   const skillsContent = "• Languages: C/C++, Python, C#, TypeScript\n• Frameworks: React, React Native, Node.js, Express, Flask\n• Technologies: EC2, S3, Nginx, UART, I2C, SPI\n• Databases: PostgreSQL\n• Certifications: AWS Cloud Practitioner, Red Cross First Aid & CPR, 2025 USSF Referee";
 
   // Function to format text with bold categories
@@ -29,26 +26,6 @@ const Skills: React.FC<SkillsProps> = ({ onClose }) => {
       return <div key={index} className="mb-1">{line}</div>;
     });
   };
-
-  // Typewriter effect
-  useEffect(() => {
-    setDisplayedText('');
-    setLocalIsTyping(true);
-    let currentIndex = 0;
-    const typingSpeed = 15;
-
-    const typeInterval = setInterval(() => {
-      if (currentIndex < skillsContent.length) {
-        setDisplayedText(skillsContent.slice(0, currentIndex + 1));
-        currentIndex++;
-      } else {
-        setLocalIsTyping(false);
-        clearInterval(typeInterval);
-      }
-    }, typingSpeed);
-
-    return () => clearInterval(typeInterval);
-  }, []); // Empty dependency array since content is static
 
   return (
     <div
@@ -73,10 +50,7 @@ const Skills: React.FC<SkillsProps> = ({ onClose }) => {
           Skills
         </h2>
         <div className="text-lg leading-relaxed text-gray-100">
-          {formatSkillsText(displayedText)}
-          {localIsTyping && (
-            <span className="inline-block w-0.5 h-5 bg-white ml-1 animate-pulse"></span>
-          )}
+          {formatSkillsText(skillsContent)}
         </div>
         {/* Decorative gradient line */}
         <div className="w-full h-1 mt-6 rounded-full bg-gradient-to-r from-green-400 to-emerald-500"></div>

@@ -1,5 +1,5 @@
 // Projects.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import type { ProjectData } from "./types";
 
 interface ProjectsProps {
@@ -8,15 +8,13 @@ interface ProjectsProps {
 
 const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
-  const [displayedText, setDisplayedText] = useState<string>("");
-  const [isTyping, setIsTyping] = useState<boolean>(false);
 
   const projectsData: ProjectData[] = [
     {
       id: "potato",
-      title: "Research Project",
+      title: "Embedded Research Project",
       github: "https://github.com/MMenser/Smart-Farming",
-      github2: "https://github.com/MMenser/Potato-React",
+      github2: "https://potatoheatbox.live",
       youtube: null,
       description: "Control Systems & Full-Stack Web App",
       tech: "C++ • Python • Flask • Nginx • PostgreSQL",
@@ -33,18 +31,53 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
     {
       id: "wiki",
       title: "MashWiki",
-      github: null,
+      github: "https://mashwiki.com",
       github2: null,
       youtube: null,
-      description: "Wikipedia Article Recommender",
+      description: "Wikipedia article recommender & search",
       tech: "React Native • NodeJS • PostgreSQL • Vector Embeddings",
       details:
-        "An web & mobile application that recommends Wikipedia articles to users. Functions similar to YouTube, where user's view history affects what articles are recommended. Popular articles are also served. Currently in progress. Porting database from local to EC2 is causing some issues.",
+        "An web & mobile application that recommends Wikipedia articles to users. Functions similar to YouTube, where user's view history affects what articles are recommended. Popular articles are also served. iOS app coming very soon, Apple is quite a stickler!",
       color: {
         bg: "bg-gradient-to-br from-pink-500/20 to-rose-600/20",
         text: "text-pink-300",
         hover: "hover:from-pink-500/30 hover:to-rose-600/30",
         gradient: "from-pink-400 to-rose-500",
+      },
+    },
+    {
+      id: "p2p",
+      title: "P2P File Sharing",
+      github: "https://github.com/MMenser/PeerFileSharing",
+      github2: null,
+      youtube: "https://youtu.be/KLlXYoRJ2I8",
+      description: "LAN chat & file sharing application",
+      tech: "C/C++ • Linux • Networking • TLS/SSL",
+      details:
+        "CLI application that allows users to chat and share files with TLS/SSL encryption. A central server is used to facilitate peer discovery, after which peers leave the server and connect to each other via Linux sockets with a TLS/SSL handshake. Built with sockets & other networking libraries in C/C++ on Linux.",
+      color: {
+        bg: "bg-gradient-to-br from-cyan-500/20 to-blue-600/20",
+        text: "text-cyan-300",
+        hover: "hover:from-cyan-500/30 hover:to-blue-600/30",
+        gradient: "from-cyan-400 to-blue-500",
+      },
+    },
+    {
+      id: "ml",
+      title: "ML Research Project",
+      github: "https://github.com/MMenser/CMEC_SandwichPanel",
+      github2: null,
+      youtube: null,
+      description: "Wood composite property prediction & generation",
+      tech: "Python • PyTorch • Neural Networks • Variational Autoencoder",
+      details:
+        "Developed MLP and cVAE models to predict and synthesize mechanical properties of wood composite sandwich panels. Both architectures achieved high predictive accuracy with an R² > 0.95. Both MLP and cVAE models have an R² > 0.95. Paper forthcoming in collaboration with faculty and graduate students.",
+
+      color: {
+        bg: "bg-gradient-to-br from-violet-500/20 to-indigo-600/20",
+        text: "text-violet-300",
+        hover: "hover:from-violet-500/30 hover:to-indigo-600/30",
+        gradient: "from-violet-400 to-indigo-500",
       },
     },
     {
@@ -65,15 +98,15 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
       },
     },
     {
-      id: "link",
-      title: "Link",
+      id: "capstone",
+      title: "Capstone Hop Selection App",
       github: null,
       github2: null,
-      youtube: null,
-      description: "Social media website for WSU students.",
-      tech: "React Native • PostgreSQL • NodeJS • Firebase Auth",
+      youtube: "https://youtu.be/GN8Ow6xQoPU",
+      description: "Enterprise iOS Tablet Application",
+      tech: "React Native • PostgreSQL • NodeJS • Docker",
       details:
-        "",
+        "Designed and developed a user-friendly iOS tablet application to digitize Hopsteiner’s hop selection process. This custom enterprise solution successfully replaced an expensive 3rd-party platform, streamlining the workflow for hop breeders and selectors.",
       color: {
         bg: "bg-gradient-to-br from-orange-500/20 to-red-600/20",
         text: "text-orange-300",
@@ -82,36 +115,6 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
       },
     },
   ];
-
-  // Typewriter effect for project details
-  useEffect(() => {
-    if (selectedProject) {
-      const project = projectsData.find((p) => p.id === selectedProject);
-      if (!project) return;
-
-      const fullText = project.details;
-      setDisplayedText("");
-      setIsTyping(true);
-
-      let currentIndex = 0;
-      const typingSpeed = 15;
-
-      const typeInterval = setInterval(() => {
-        if (currentIndex < fullText.length) {
-          setDisplayedText(fullText.slice(0, currentIndex + 1));
-          currentIndex++;
-        } else {
-          setIsTyping(false);
-          clearInterval(typeInterval);
-        }
-      }, typingSpeed);
-
-      return () => clearInterval(typeInterval);
-    } else {
-      setDisplayedText("");
-      setIsTyping(false);
-    }
-  }, [selectedProject]);
 
   const handleProjectClick = (projectId: string): void => {
     setSelectedProject(selectedProject === projectId ? null : projectId);
@@ -177,7 +180,7 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
           <div className={`text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 ${project.color.text} leading-tight break-words`}>
             {project.title}
           </div>
-          
+
           {/* Links - Stack on mobile, inline on larger screens */}
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
             {project.github && (
@@ -218,10 +221,7 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
         </div>
 
         <div className="text-sm sm:text-base md:text-lg leading-relaxed text-gray-100 break-words">
-          {displayedText}
-          {isTyping && (
-            <span className="inline-block w-0.5 h-4 sm:h-5 bg-white ml-1 animate-pulse"></span>
-          )}
+          {project.details}
         </div>
 
         {/* Decorative gradient line */}
