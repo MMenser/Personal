@@ -1,0 +1,3 @@
+Make the professional version of the site the default.
+Add a bit more color/bolded words on the professional version to make it pop more.
+Make sure this works on smaller screens like phones.

@@ -280,6 +280,12 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
       <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-20 text-white/50 text-xs hidden sm:block">
         Reload the page to regenerate the mountains, planets, and stars!
       </div>
+      <a
+        href="/"
+        className="fixed bottom-4 right-4 z-20 text-white/30 hover:text-white/60 text-xs hidden sm:block transition-colors"
+      >
+        Professional version →
+      </a>
     </div>
   );
 };

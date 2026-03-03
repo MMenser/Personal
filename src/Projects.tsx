@@ -114,6 +114,23 @@ const Projects: React.FC<ProjectsProps> = ({ onClose }) => {
         gradient: "from-orange-400 to-red-500",
       },
     },
+    {
+      id: "obd2",
+      title: "OBD2 Vehicle Telemetry Display",
+      github: null,
+      github2: null,
+      youtube: null,
+      description: "Real-time vehicle diagnostics on ESP32",
+      tech: "C • ESP-IDF • FreeRTOS • CAN • SPI • I2C",
+      details:
+        "Real-time embedded telemetry system on ESP32 using ESP-IDF to interface with vehicle OBD2 over CAN via SPI. Implemented CAN frame parsing to decode standard PIDs (RPM, coolant temp, etc.) and render live diagnostics to an I2C LED display. Developed concurrent firmware in C using FreeRTOS tasks for CAN polling and display updates.",
+      color: {
+        bg: "bg-gradient-to-br from-amber-500/20 to-yellow-600/20",
+        text: "text-amber-300",
+        hover: "hover:from-amber-500/30 hover:to-yellow-600/30",
+        gradient: "from-amber-400 to-yellow-500",
+      },
+    },
   ];
 
   const handleProjectClick = (projectId: string): void => {
