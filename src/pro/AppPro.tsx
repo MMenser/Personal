@@ -130,7 +130,7 @@ const AppPro: React.FC = () => {
               Computer Science Graduate
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
-              <span className="rounded-full bg-rose-50 px-2.5 py-1 text-xs font-semibold text-rose-700 ring-1 ring-rose-100">
+              <span className="rounded-full px-2.5 py-1 text-xs font-semibold ring-1">
                 WSU Class of 2026
               </span>
               <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700 ring-1 ring-blue-100">
@@ -188,7 +188,7 @@ const AppPro: React.FC = () => {
             About
           </h2>
           <p className="text-[15px] text-neutral-600 leading-relaxed">
-            I'm a recent {accent("Washington State University graduate")} with a {hi("B.S. in Computer Science")}, a Math Minor, and a History Minor. Born and raised in the Seattle area, I enjoy nature, soccer, rock climbing, reading, and spending time with friends.
+            I'm a recent Washington State University graduate with a {hi("B.S. in Computer Science")} with minors in History and Math. Born and raised in the Seattle area, I enjoy nature, soccer, rock climbing, reading, and spending time with friends.
           </p>
           <img
             src="https://ghchart.rshah.org/MMenser"
@@ -205,11 +205,11 @@ const AppPro: React.FC = () => {
             Skills
           </h2>
           <div className="space-y-2 text-[15px] text-neutral-600">
-            <div><span className="font-semibold text-blue-700">Languages</span>{" - "}C/C++, Python, C#, TypeScript</div>
-            <div><span className="font-semibold text-rose-700">Frameworks</span>{" - "}React, React Native, Node.js, Express, Flask</div>
-            <div><span className="font-semibold text-emerald-700">Technologies</span>{" - "}EC2, S3, Nginx, UART, I2C, SPI</div>
-            <div><span className="font-semibold text-violet-700">Databases</span>{" - "}PostgreSQL</div>
-            <div><span className="font-semibold text-amber-700">Certifications</span>{" - "}AWS Cloud Practitioner, Red Cross First Aid & CPR, 2025 USSF Referee</div>
+            <div><span className="font-semibold">Languages</span>{" - "}C/C++, Python, C#, TypeScript</div>
+            <div><span className="font-semibold">Frameworks</span>{" - "}React, React Native, Node.js, Express, Flask</div>
+            <div><span className="font-semibold">Technologies</span>{" - "}EC2, S3, Nginx, UART, I2C, SPI</div>
+            <div><span className="font-semibold">Databases</span>{" - "}PostgreSQL</div>
+            <div><span className="font-semibold">Certifications</span>{" - "}AWS Cloud Practitioner, Red Cross First Aid & CPR, 2025 USSF Referee</div>
           </div>
         </section>
 
