@@ -19,10 +19,6 @@ const hi = (text: string) => (
   <span className="font-semibold text-blue-700">{text}</span>
 );
 
-const accent = (text: string) => (
-  <span className="font-semibold text-rose-700">{text}</span>
-);
-
 const formatDateRange = (startDate: string, endDate: string | null): string => {
   if (!endDate) return "Ongoing";
   const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
