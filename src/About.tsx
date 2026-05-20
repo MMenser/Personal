@@ -10,9 +10,8 @@ const About: React.FC<AboutProps> = ({ onClose }) => {
   const [displayedText, setDisplayedText] = useState<string>('');
   const [isTyping, setIsTyping] = useState<boolean>(false);
 
-  const aboutContent = `I'm a computer science student at Washington State University. I'm in my senior year and hope to graduate in the Spring of 2026 with a B.S in Computer Science, Math Minor and History Minor.
-  I was born and raised in the Seattle area and I love enjoying nature, playing soccer, rock climbing, reading, and spending time with friends.
-  A couple of my future goals include finishing publishing my first app to the iOS app store, getting my motorcycle license, and graduating university.`;
+  const aboutContent = `I'm a recent Washington State University graduate with a B.S. in Computer Science, a Math Minor, and a History Minor.
+  I was born and raised in the Seattle area and I love enjoying nature, playing soccer, rock climbing, reading, and spending time with friends.`;
 
   // Social media links
   const socialLinks = [

@@ -6,7 +6,7 @@ interface SkillsProps {
 }
 
 const Skills: React.FC<SkillsProps> = ({ onClose }) => {
-  const skillsContent = "• Languages: C/C++, Python, C#, TypeScript\n• Frameworks: React, React Native, Node.js, Express, Flask\n• Technologies: EC2, S3, Nginx, UART, I2C, SPI\n• Databases: PostgreSQL\n• Certifications: AWS Cloud Practitioner, Red Cross First Aid & CPR, 2025 USSF Referee";
+  const skillsContent = "- Languages: C/C++, Python, C#, TypeScript\n- Frameworks: React, React Native, Node.js, Express, Flask\n- Technologies: EC2, S3, Nginx, UART, I2C, SPI\n- Databases: PostgreSQL\n- Certifications: AWS Cloud Practitioner, Red Cross First Aid & CPR, 2025 USSF Referee";
 
   // Function to format text with bold categories
   const formatSkillsText = (text: string) => {

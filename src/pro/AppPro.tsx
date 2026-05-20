@@ -16,7 +16,11 @@ interface Project {
 
 // Helper for bolded inline terms
 const hi = (text: string) => (
-  <span className="font-semibold text-neutral-800">{text}</span>
+  <span className="font-semibold text-blue-700">{text}</span>
+);
+
+const accent = (text: string) => (
+  <span className="font-semibold text-rose-700">{text}</span>
 );
 
 const formatDateRange = (startDate: string, endDate: string | null): string => {
@@ -27,36 +31,36 @@ const formatDateRange = (startDate: string, endDate: string | null): string => {
   const startMon = months[+sm - 1];
   const endMon   = months[+em - 1];
   return sy === ey
-    ? `${startMon} – ${endMon} ${ey}`
-    : `${startMon} ${sy} – ${endMon} ${ey}`;
+    ? `${startMon} - ${endMon} ${ey}`
+    : `${startMon} ${sy} - ${endMon} ${ey}`;
 };
 
 // Add new projects here. Sorting is automatic:
-//   - endDate: null  → Ongoing (sorts first, by startDate descending)
-//   - endDate: "YYYY-MM" → completed (sorts by end date descending)
+//   - endDate: null -> Ongoing (sorts first, by startDate descending)
+//   - endDate: "YYYY-MM" -> completed (sorts by end date descending)
 const projects: Project[] = [
   {
     id: "obd2",
     title: "OBD2 Vehicle Telemetry Display",
     startDate: "2026-01",
-    endDate: null,
+    endDate: "2026-02",
     tech: ["C", "ESP-IDF", "FreeRTOS", "CAN", "SPI", "I2C"],
     description: <>Real-time embedded telemetry system on {hi("ESP32")} using ESP-IDF to interface with vehicle OBD2 over {hi("CAN via SPI")}. Implemented CAN frame parsing to decode standard PIDs (RPM, coolant temp, etc.) and render live diagnostics to an {hi("I2C LED display")}. Developed concurrent firmware in C using {hi("FreeRTOS")} tasks for CAN polling and display updates.</>,
   },
   {
     id: "ml",
     title: "AI/ML Composite Sandwich Panels",
-    startDate: "2025-01",
-    endDate: null,
+    startDate: "2025-11",
+    endDate: "2026-05",
     github: "https://github.com/MMenser/CMEC_SandwichPanel",
     tech: ["Python", "PyTorch", "Neural Networks", "Variational Autoencoder"],
-    description: <>Developed {hi("MLP and cVAE models")} to predict and synthesize mechanical properties of wood composite sandwich panels. Both architectures achieved {hi("R² > 0.95")}. Paper forthcoming in collaboration with faculty and graduate students.</>,
+    description: <>Developed {hi("MLP and cVAE models")} to predict and synthesize mechanical properties of wood composite sandwich panels. Both architectures achieved {hi("R^2 > 0.95")}. Paper forthcoming in collaboration with faculty and graduate students.</>,
   },
   {
     id: "potato",
     title: "Embedded Potatoes",
     startDate: "2024-08",
-    endDate: null,
+    endDate: "2026-05",
     github: "https://github.com/MMenser/Smart-Farming",
     live: "https://potatoheatbox.live",
     tech: ["C++", "Python", "Flask", "Nginx", "PostgreSQL"],
@@ -65,8 +69,8 @@ const projects: Project[] = [
   {
     id: "wiki",
     title: "MashWiki",
-    startDate: "2024-06",
-    endDate: null,
+    startDate: "2025-06",
+    endDate: "2026-04",
     live: "https://mashwiki.com",
     tech: ["React Native", "Node.js", "PostgreSQL", "Vector Embeddings"],
     description: <>Web and mobile application that recommends Wikipedia articles using {hi("view-history-based personalization")}, similar to YouTube's recommendation model. Uses vector embeddings for semantic similarity. iOS app forthcoming.</>,
@@ -102,8 +106,8 @@ const projects: Project[] = [
   },
 ];
 
-// Ongoing (endDate: null) → sorted first by startDate desc
-// Completed → sorted by endDate desc, then startDate desc
+// Ongoing (endDate: null) -> sorted first by startDate desc
+// Completed -> sorted by endDate desc, then startDate desc
 const sortedProjects = [...projects].sort((a, b) => {
   const aEnd = a.endDate ?? "9999-12";
   const bEnd = b.endDate ?? "9999-12";
@@ -122,14 +126,22 @@ const AppPro: React.FC = () => {
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-neutral-900">
               Mason Menser
             </h1>
-            <p className="text-neutral-500 mt-1.5 text-sm sm:text-base">
-              CS Student · Software Engineer
+            <p className="text-neutral-600 mt-1.5 text-sm sm:text-base">
+              Computer Science Graduate
             </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full bg-rose-50 px-2.5 py-1 text-xs font-semibold text-rose-700 ring-1 ring-rose-100">
+                WSU Class of 2026
+              </span>
+              <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700 ring-1 ring-blue-100">
+                Embedded + Full-stack
+              </span>
+            </div>
             <a
               href="/?playful"
               className="inline-block mt-2 text-[11px] text-neutral-400 hover:text-neutral-600 border border-neutral-200 hover:border-neutral-400 rounded-full px-2.5 py-0.5 transition-colors"
             >
-              ✦ Fun version
+              Fun version
             </a>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-4">
               <a href="https://github.com/MMenser" target="_blank" rel="noopener noreferrer"
@@ -176,7 +188,7 @@ const AppPro: React.FC = () => {
             About
           </h2>
           <p className="text-[15px] text-neutral-600 leading-relaxed">
-            I'm a computer science student at Washington State University, graduating Spring 2026 with a B.S. in Computer Science, a Math Minor, and a History Minor. Born and raised in the Seattle area. I enjoy nature, soccer, rock climbing, reading, and spending time with friends.
+            I'm a recent {accent("Washington State University graduate")} with a {hi("B.S. in Computer Science")}, a Math Minor, and a History Minor. Born and raised in the Seattle area, I enjoy nature, soccer, rock climbing, reading, and spending time with friends.
           </p>
           <img
             src="https://ghchart.rshah.org/MMenser"
@@ -193,11 +205,11 @@ const AppPro: React.FC = () => {
             Skills
           </h2>
           <div className="space-y-2 text-[15px] text-neutral-600">
-            <div><span className="font-semibold text-neutral-900">Languages</span>{" — "}C/C++, Python, C#, TypeScript</div>
-            <div><span className="font-semibold text-neutral-900">Frameworks</span>{" — "}React, React Native, Node.js, Express, Flask</div>
-            <div><span className="font-semibold text-neutral-900">Technologies</span>{" — "}EC2, S3, Nginx, UART, I2C, SPI</div>
-            <div><span className="font-semibold text-neutral-900">Databases</span>{" — "}PostgreSQL</div>
-            <div><span className="font-semibold text-neutral-900">Certifications</span>{" — "}AWS Cloud Practitioner, Red Cross First Aid & CPR, 2025 USSF Referee</div>
+            <div><span className="font-semibold text-blue-700">Languages</span>{" - "}C/C++, Python, C#, TypeScript</div>
+            <div><span className="font-semibold text-rose-700">Frameworks</span>{" - "}React, React Native, Node.js, Express, Flask</div>
+            <div><span className="font-semibold text-emerald-700">Technologies</span>{" - "}EC2, S3, Nginx, UART, I2C, SPI</div>
+            <div><span className="font-semibold text-violet-700">Databases</span>{" - "}PostgreSQL</div>
+            <div><span className="font-semibold text-amber-700">Certifications</span>{" - "}AWS Cloud Practitioner, Red Cross First Aid & CPR, 2025 USSF Referee</div>
           </div>
         </section>
 
@@ -236,7 +248,7 @@ const AppPro: React.FC = () => {
                 </p>
                 <div className="flex flex-wrap gap-1.5 mt-1.5">
                   {project.tech.map(t => (
-                    <span key={t} className="bg-slate-100 text-slate-500 rounded px-1.5 py-0.5 text-[11px] font-mono">{t}</span>
+                    <span key={t} className="bg-blue-50 text-blue-700 ring-1 ring-blue-100 rounded px-1.5 py-0.5 text-[11px] font-mono">{t}</span>
                   ))}
                 </div>
                 <p className="text-[15px] text-neutral-600 mt-2 leading-relaxed">
@@ -251,7 +263,7 @@ const AppPro: React.FC = () => {
         <footer className="pt-8 border-t border-neutral-100 flex justify-between items-center">
           <span className="text-neutral-300 text-sm">Mason Menser</span>
           <a href="/?playful" className="text-neutral-300 hover:text-neutral-600 text-sm transition-colors">
-            ← Playful version
+            &lt;- Playful version
           </a>
         </footer>
 

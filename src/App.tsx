@@ -282,9 +282,10 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
       </div>
       <a
         href="/"
-        className="fixed bottom-4 right-4 z-20 text-white/30 hover:text-white/60 text-xs hidden sm:block transition-colors"
+        className="fixed bottom-4 right-4 z-20 rounded-full border border-cyan-300/40 bg-black/60 px-4 py-2 text-xs font-bold text-cyan-100 shadow-[0_0_18px_rgba(34,211,238,0.25)] backdrop-blur-sm transition-all hover:border-cyan-200 hover:bg-cyan-950/70 hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-300"
+        aria-label="Go back to the serious version"
       >
-        Professional version →
+        Serious version
       </a>
     </div>
   );
