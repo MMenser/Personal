@@ -15,6 +15,9 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
+  "overrides": {
+    "rollup": "npm:@rollup/wasm-node@^4"
+  },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
     "@types/react": "^19.1.9",
