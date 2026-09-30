@@ -1,6 +1,7 @@
 import React from "react";
 import { Badge } from "lucide-react";
 import headshot from "../assets/BlackbgHeadshot.png";
+import SiteOriginBadge from "../SiteOriginBadge";
 
 interface Project {
   id: string;
@@ -133,12 +134,14 @@ const AppPro: React.FC = () => {
                 Embedded + Full-stack
               </span>
             </div>
-            <a
-              href="/?playful"
-              className="inline-block mt-2 text-[11px] text-neutral-400 hover:text-neutral-600 border border-neutral-200 hover:border-neutral-400 rounded-full px-2.5 py-0.5 transition-colors"
-            >
-              Fun version
-            </a>
+            <div className="mt-2 flex flex-wrap gap-2">
+              <a
+                href="/?playful"
+                className="inline-block text-[11px] text-neutral-400 hover:text-neutral-600 border border-neutral-200 hover:border-neutral-400 rounded-full px-2.5 py-0.5 transition-colors"
+              >
+                Fun version
+              </a>
+            </div>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-4">
               <a href="https://github.com/MMenser" target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-1.5 text-sm text-neutral-500 hover:text-blue-600 transition-colors">
@@ -177,6 +180,8 @@ const AppPro: React.FC = () => {
             className="rounded-full w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 object-cover"
           />
         </header>
+
+        <SiteOriginBadge className="mb-6 text-xs text-neutral-500" />
 
         {/* ===== ABOUT ===== */}
         <section className="mb-8">

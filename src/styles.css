@@ -16,3 +16,159 @@
     opacity: 1;
   }
 }
+
+/* ===================== Space landing ===================== */
+
+/* Subtle drift so planets feel alive without being distracting */
+.planet-float {
+  animation: planet-float 6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes planet-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* ===================== Forest landing ===================== */
+
+/* Soft daylight filtering through the trees */
+.forest-rays {
+  background: linear-gradient(
+    103deg,
+    transparent 24%,
+    rgba(255, 250, 224, 0.5) 34%,
+    transparent 41%,
+    transparent 55%,
+    rgba(255, 250, 224, 0.34) 62%,
+    transparent 69%,
+    transparent 82%,
+    rgba(255, 250, 224, 0.28) 87%,
+    transparent 93%
+  );
+  filter: blur(9px);
+  animation: forest-rays-shift 22s ease-in-out infinite alternate;
+}
+@keyframes forest-rays-shift {
+  from {
+    transform: translateX(-2%) skewX(-2deg);
+    opacity: 0.5;
+  }
+  to {
+    transform: translateX(2%) skewX(2deg);
+    opacity: 0.95;
+  }
+}
+
+/* Low-lying morning haze */
+.forest-mist {
+  background: radial-gradient(
+    ellipse 60% 100% at 50% 50%,
+    rgba(255, 255, 255, 0.6),
+    transparent 72%
+  );
+  filter: blur(22px);
+  animation: forest-mist-drift linear infinite alternate;
+}
+@keyframes forest-mist-drift {
+  from {
+    transform: translateX(-8%);
+  }
+  to {
+    transform: translateX(8%);
+  }
+}
+
+/* Gentle sway for the side trees */
+.forest-sway {
+  transform-origin: bottom center;
+  animation: forest-sway 11s ease-in-out infinite alternate;
+}
+@keyframes forest-sway {
+  from {
+    transform: rotate(-0.6deg);
+  }
+  to {
+    transform: rotate(0.6deg);
+  }
+}
+
+/* Drifting pollen / light motes */
+.mote {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 253, 245, 0.95),
+    rgba(255, 250, 235, 0.25) 55%,
+    transparent 70%
+  );
+  box-shadow: 0 0 6px 2px rgba(255, 252, 240, 0.5);
+  animation-name: mote-float;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+@keyframes mote-float {
+  0%,
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.12;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(var(--fx), var(--fy));
+    opacity: 0.4;
+  }
+  75% {
+    opacity: 0.7;
+  }
+}
+
+/* Trail-cam screen static */
+.tv-static {
+  opacity: 0.5;
+  background-repeat: repeat;
+  animation: tv-static 0.5s steps(3) infinite;
+}
+@keyframes tv-static {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 70px 60px;
+  }
+}
+
+/* Blinking REC indicator */
+.rec-blink {
+  animation: rec-blink 1.1s steps(1) infinite;
+}
+@keyframes rec-blink {
+  0%,
+  60% {
+    opacity: 1;
+  }
+  61%,
+  100% {
+    opacity: 0.15;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .forest-rays,
+  .forest-mist,
+  .forest-sway,
+  .mote,
+  .tv-static,
+  .rec-blink,
+  .planet-float {
+    animation: none !important;
+  }
+}
