@@ -1,0 +1,15 @@
+# systemd unit for the workout receiver.
+# The server reads the token from receiver/.env itself (gitignored; see receiver/README.md).
+[Unit]
+Description=Workout receiver
+After=network.target
+
+[Service]
+User=mason
+WorkingDirectory=/home/mason/Desktop/Personal
+ExecStart=/usr/bin/env node receiver/server.mjs
+Environment=HOST=127.0.0.1 PORT=8788 DATA_FILE=/home/mason/Desktop/Personal/workout-data/workouts.jsonl ACTIVITY_FILE=/var/www/site/activity.json
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

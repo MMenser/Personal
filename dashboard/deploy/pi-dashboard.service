@@ -1,5 +1,5 @@
 # systemd unit for the dashboard stats server.
-# Edit User and WorkingDirectory to match the Pi, then:
+# Install:
 #   sudo cp dashboard/deploy/pi-dashboard.service /etc/systemd/system/
 #   sudo systemctl daemon-reload && sudo systemctl enable --now pi-dashboard
 [Unit]
@@ -7,8 +7,8 @@ Description=Pi command center dashboard
 After=network.target
 
 [Service]
-User=pi
-WorkingDirectory=/home/pi/Personal
+User=mason
+WorkingDirectory=/home/mason/Desktop/Personal
 ExecStart=/usr/bin/env node dashboard/server/server.mjs
 Environment=HOST=127.0.0.1 PORT=8787
 Restart=on-failure

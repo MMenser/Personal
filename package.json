@@ -11,8 +11,8 @@
     "dashboard:dev": "vite --config dashboard/vite.config.ts",
     "dashboard:build": "tsc -p dashboard/tsconfig.json && vite build --config dashboard/vite.config.ts",
     "dashboard:server": "node dashboard/server/server.mjs",
-    "strava:auth": "node --env-file=.env.strava scripts/strava-auth.mjs",
-    "strava:fetch": "node --env-file=.env.strava scripts/strava-activity.mjs"
+    "receiver:server": "node receiver/server.mjs",
+    "receiver:token": "node -e \"console.log(require('crypto').randomBytes(32).toString('base64url'))\""
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.12",

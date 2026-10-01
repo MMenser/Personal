@@ -1,21 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 
-// Shape of /activity.json (see strava/activity.mjs)
-interface ActivityDay {
-  minutes: number;
-  count: number;
-  sports: string[];
-}
-
+// Shape of /activity.json (see receiver/activity.mjs). Dates are Pacific time.
 interface ActivityData {
   generatedAt: string;
-  days: Record<string, ActivityDay>;
+  start: string;
+  end: string;
+  days: string[];
 }
 
 interface Cell {
   date: string;
-  day: ActivityDay | null;
-  future: boolean;
+  active: boolean;
+  hidden: boolean; // outside the start..end window
 }
 
 const WEEKS = 53;
@@ -24,36 +20,32 @@ const COLUMNS = `1.75rem repeat(${WEEKS}, minmax(0, 1fr))`;
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const DAY_LABELS = ["", "Mon", "", "Wed", "", "Fri", ""];
 
-// Sequential single-hue ramp, empty -> most active
-const LEVEL_CLASSES = ["bg-neutral-100", "bg-blue-200", "bg-blue-400", "bg-blue-600", "bg-blue-800"];
-const LEVEL_LABELS = ["No activity", "Under 30 min", "30-59 min", "60-89 min", "90+ min"];
+const ACTIVE_CLASS = "bg-blue-500";
+const REST_CLASS = "bg-neutral-100";
 
-const level = (minutes: number) =>
-  minutes <= 0 ? 0 : minutes < 30 ? 1 : minutes < 60 ? 2 : minutes < 90 ? 3 : 4;
-
-const isoDate = (d: Date) =>
-  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+// Date math stays in UTC on plain YYYY-MM-DD strings so the grid matches the
+// file's Pacific dates no matter where the visitor is.
+const parseDate = (iso: string) => new Date(`${iso}T00:00:00Z`);
+const isoDate = (d: Date) => d.toISOString().slice(0, 10);
 
 const formatDate = (iso: string) =>
-  new Date(`${iso}T00:00:00`).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+  parseDate(iso).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 
-const formatMinutes = (m: number) => (m >= 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m}m`);
-
-// Columns are Sunday-start weeks, ending with the week that contains today.
-function buildWeeks(days: Record<string, ActivityDay>): Cell[][] {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const start = new Date(today);
-  start.setDate(today.getDate() - today.getDay() - (WEEKS - 1) * 7);
+// Columns are Sunday-start weeks, ending with the week that contains data.end.
+function buildWeeks(data: ActivityData): Cell[][] {
+  const active = new Set(data.days);
+  const last = parseDate(data.end);
+  const first = new Date(last);
+  first.setUTCDate(last.getUTCDate() - last.getUTCDay() - (WEEKS - 1) * 7);
 
   const weeks: Cell[][] = [];
   for (let w = 0; w < WEEKS; w++) {
     const week: Cell[] = [];
     for (let d = 0; d < 7; d++) {
-      const date = new Date(start);
-      date.setDate(start.getDate() + w * 7 + d);
+      const date = new Date(first);
+      date.setUTCDate(first.getUTCDate() + w * 7 + d);
       const key = isoDate(date);
-      week.push({ date: key, day: days[key] ?? null, future: date > today });
+      week.push({ date: key, active: active.has(key), hidden: key < data.start || key > data.end });
     }
     weeks.push(week);
   }
@@ -71,16 +63,10 @@ export default function ActivityGraph() {
       .catch(() => setData(null));
   }, []);
 
-  const weeks = useMemo(() => (data ? buildWeeks(data.days) : []), [data]);
-  const totals = useMemo(() => {
-    const cells = weeks.flat().filter(c => c.day);
-    return {
-      workouts: cells.reduce((n, c) => n + c.day!.count, 0),
-      hours: Math.round(cells.reduce((n, c) => n + c.day!.minutes, 0) / 60),
-    };
-  }, [weeks]);
+  const weeks = useMemo(() => (data ? buildWeeks(data) : []), [data]);
+  const activeDays = data?.days.length ?? 0;
 
-  // Stay invisible until data arrives, and entirely if Strava is unavailable.
+  // Stay invisible until data arrives, and entirely if activity.json is missing.
   if (!data) return null;
 
   return (
@@ -102,7 +88,7 @@ export default function ActivityGraph() {
           className="grid gap-[2px]"
           style={{ gridTemplateColumns: COLUMNS }}
           role="img"
-          aria-label={`Workout heatmap: ${totals.workouts} workouts over the past year`}
+          aria-label={`Workout graph: ${activeDays} active days over the past year`}
         >
           {DAY_LABELS.map((label, d) => (
             <span
@@ -118,7 +104,7 @@ export default function ActivityGraph() {
               key={cell.date}
               style={{ gridColumn: w + 2, gridRow: d + 1 }}
               className={`aspect-square rounded-[2px] ${
-                cell.future ? "invisible" : LEVEL_CLASSES[level(cell.day?.minutes ?? 0)]
+                cell.hidden ? "invisible" : cell.active ? ACTIVE_CLASS : REST_CLASS
               }`}
               onMouseEnter={e => {
                 const box = e.currentTarget.getBoundingClientRect();
@@ -129,7 +115,7 @@ export default function ActivityGraph() {
           )))}
         </div>
 
-        {hover && !hover.cell.future && (
+        {hover && !hover.cell.hidden && (
           <div
             className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full -mt-1.5 whitespace-nowrap rounded bg-neutral-900 px-2 py-1 text-xs text-white shadow"
             style={{
@@ -138,27 +124,24 @@ export default function ActivityGraph() {
             }}
           >
             <div className="font-semibold">{formatDate(hover.cell.date)}</div>
-            {hover.cell.day ? (
-              <div className="text-neutral-300">
-                {formatMinutes(hover.cell.day.minutes)} · {hover.cell.day.sports.join(", ")}
-              </div>
-            ) : (
-              <div className="text-neutral-300">Rest day</div>
-            )}
+            <div className="text-neutral-300">{hover.cell.active ? "Worked out" : "Rest day"}</div>
           </div>
         )}
       </div>
 
       <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-neutral-500">
         <span>
-          {totals.workouts} workouts, {totals.hours} hours in the last year · via Strava
+          {activeDays} active days in the last year
         </span>
-        <span className="flex items-center gap-1">
-          Less
-          {LEVEL_CLASSES.map((cls, i) => (
-            <span key={cls} title={LEVEL_LABELS[i]} className={`inline-block h-2.5 w-2.5 rounded-[2px] ${cls}`} />
-          ))}
-          More
+        <span className="flex items-center gap-3">
+          <span className="flex items-center gap-1">
+            <span className={`inline-block h-2.5 w-2.5 rounded-[2px] ${REST_CLASS}`} />
+            Rest
+          </span>
+          <span className="flex items-center gap-1">
+            <span className={`inline-block h-2.5 w-2.5 rounded-[2px] ${ACTIVE_CLASS}`} />
+            Workout
+          </span>
         </span>
       </div>
     </div>
