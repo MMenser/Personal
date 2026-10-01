@@ -2,6 +2,7 @@ import React from "react";
 import { Badge } from "lucide-react";
 import headshot from "../assets/BlackbgHeadshot.png";
 import SiteOriginBadge from "../SiteOriginBadge";
+import ActivityGraph from "./ActivityGraph";
 
 interface Project {
   id: string;
@@ -196,6 +197,7 @@ const AppPro: React.FC = () => {
             alt="GitHub contribution graph"
             className="w-full mt-5 rounded"
           />
+          <ActivityGraph />
         </section>
 
         <hr className="border-neutral-100 my-7" />

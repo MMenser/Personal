@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "dashboard:dev": "vite --config dashboard/vite.config.ts",
     "dashboard:build": "tsc -p dashboard/tsconfig.json && vite build --config dashboard/vite.config.ts",
-    "dashboard:server": "node dashboard/server/server.mjs"
+    "dashboard:server": "node dashboard/server/server.mjs",
+    "strava:auth": "node --env-file=.env.strava scripts/strava-auth.mjs",
+    "strava:fetch": "node --env-file=.env.strava scripts/strava-activity.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.12",
