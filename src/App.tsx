@@ -334,7 +334,7 @@ const MountainBackground: React.FC<MountainBackgroundProps> = ({
         Reload the page to regenerate the mountains, planets, and stars!
       </div>
       <div className="hidden sm:block">
-        <SiteOriginBadge className="fixed top-4 right-4 z-20 text-white/40 text-xs" />
+        <SiteOriginBadge align="right" className="fixed top-4 right-4 z-20 text-white/40 text-xs" />
       </div>
       <a
         href="/?pro"

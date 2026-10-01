@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import InfoTip from "../InfoTip";
 
 // Shape of /activity.json (see receiver/activity.mjs). Dates are Pacific time.
 interface ActivityData {
@@ -150,7 +151,14 @@ export default function ActivityGraph() {
         )}
       </div>
 
-      <div className="mt-2 text-center text-xs text-neutral-500">Activity</div>
+      <div className="mt-2 text-center text-xs text-neutral-500">
+        <InfoTip
+          align="center"
+          content="Days I worked out in the past year, tracked by my Apple Watch. My iPhone sends each workout to my Raspberry Pi, which turns them into this graph. Hover over a square to see the workout."
+        >
+          Activity
+        </InfoTip>
+      </div>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { Badge } from "lucide-react";
 import headshot from "../assets/BlackbgHeadshot.png";
 import SiteOriginBadge from "../SiteOriginBadge";
 import ActivityGraph from "./ActivityGraph";
+import InfoTip from "../InfoTip";
 
 interface Project {
   id: string;
@@ -197,7 +198,14 @@ const AppPro: React.FC = () => {
             alt="GitHub contribution graph"
             className="w-full mt-5 rounded"
           />
-          <div className="mt-2 text-center text-xs text-neutral-500">GitHub</div>
+          <div className="mt-2 text-center text-xs text-neutral-500">
+            <InfoTip
+              align="center"
+              content="My GitHub contributions in the past year: commits, pull requests and issues. Darker squares mean more contributions that day. Chart by ghchart.rshah.org."
+            >
+              GitHub
+            </InfoTip>
+          </div>
           <ActivityGraph />
         </section>
 
