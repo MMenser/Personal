@@ -8,7 +8,7 @@ After=network.target
 User=mason
 WorkingDirectory=/home/mason/Desktop/Personal
 ExecStart=/usr/bin/env node receiver/server.mjs
-Environment=HOST=127.0.0.1 PORT=8788 DATA_FILE=/home/mason/Desktop/Personal/workout-data/workouts.jsonl ACTIVITY_FILE=/var/www/site/activity.json
+Environment=HOST=127.0.0.1 PORT=8788 DATA_FILE=/home/mason/Desktop/Personal/workout-data/workouts.jsonl ACTIVITY_FILE=/var/www/personal/activity.json
 Restart=on-failure
 
 [Install]
