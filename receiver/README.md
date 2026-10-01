@@ -12,7 +12,7 @@ After every upload it also merges the workouts into `DB_FILE` (default
 id. IDs already in the database are skipped. If anything new was added, it
 rewrites `ACTIVITY_FILE` (default `public/activity.json`), which is what the
 website's workout graph reads. That file contains only the Pacific-time dates in
-the last 365 days that had a workout. On first start, the database is seeded
+the last 365 days that had a workout, with each workout's activity type. On first start, the database is seeded
 from the existing `DATA_FILE`. See `activity.mjs`.
 
 The receiver binds to localhost only. The only way in is nginx forwarding

@@ -1,7 +1,7 @@
 // Keeps the workout database (a JSON array of workouts, one entry per id) and
-// reduces it to the public activity.json: just the dates (Pacific time) with at
-// least one workout in the last year. Nothing else about a workout (type,
-// duration, heart rate, location) leaves the Pi.
+// reduces it to the public activity.json: the dates (Pacific time) in the last
+// year with the activity type of each workout that day. Nothing else about a
+// workout (times, duration, heart rate, location) leaves the Pi.
 import { createReadStream } from "node:fs";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -84,12 +84,13 @@ export async function seedDatabase(dbFile, logFile) {
 export async function writeActivity(dbFile, activityFile, now = new Date()) {
   const end = toPacificDate(now);
   const start = addDays(end, -(WINDOW_DAYS - 1));
-  const days = new Set();
-  for (const workout of await readDatabase(dbFile)) {
+  const workouts = (await readDatabase(dbFile)).sort((a, b) => a.start.localeCompare(b.start));
+  const days = {}; // "YYYY-MM-DD" -> activity names, in start order
+  for (const workout of workouts) {
     const day = toPacificDate(new Date(workout.start));
-    if (day >= start && day <= end) days.add(day);
+    if (day >= start && day <= end) (days[day] ??= []).push(workout.activityName ?? "workout");
   }
-  const data = { generatedAt: now.toISOString(), timeZone: TIME_ZONE, start, end, days: [...days].sort() };
+  const data = { generatedAt: now.toISOString(), timeZone: TIME_ZONE, start, end, days };
   await writeJsonAtomic(activityFile, data, 0o644); // public: nginx must read it
   return data;
 }

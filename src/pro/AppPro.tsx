@@ -197,6 +197,7 @@ const AppPro: React.FC = () => {
             alt="GitHub contribution graph"
             className="w-full mt-5 rounded"
           />
+          <div className="mt-2 text-center text-xs text-neutral-500">GitHub</div>
           <ActivityGraph />
         </section>
 

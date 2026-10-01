@@ -5,12 +5,12 @@ interface ActivityData {
   generatedAt: string;
   start: string;
   end: string;
-  days: string[];
+  days: Record<string, string[]>; // date -> activity names (HealthKit style, e.g. "traditionalStrengthTraining")
 }
 
 interface Cell {
   date: string;
-  active: boolean;
+  workouts: string[];
   hidden: boolean; // outside the start..end window
 }
 
@@ -20,8 +20,30 @@ const COLUMNS = `1.75rem repeat(${WEEKS}, minmax(0, 1fr))`;
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const DAY_LABELS = ["", "Mon", "", "Wed", "", "Fri", ""];
 
-const ACTIVE_CLASS = "bg-blue-500";
+const ACTIVE_CLASS = "bg-orange-500";
 const REST_CLASS = "bg-neutral-100";
+
+const ACTIVITY_LABELS: Record<string, string> = {
+  traditionalStrengthTraining: "Strength training",
+  functionalStrengthTraining: "Strength training",
+  highIntensityIntervalTraining: "HIIT",
+  downhillSkiing: "Skiing",
+};
+
+// "stairClimbing" -> "Stair climbing"
+const activityLabel = (name: string) =>
+  ACTIVITY_LABELS[name] ??
+  name.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase().replace(/^./, c => c.toUpperCase());
+
+// "Climbing ×2, Running"
+function describeWorkouts(names: string[]) {
+  const counts = new Map<string, number>();
+  for (const name of names) {
+    const label = activityLabel(name);
+    counts.set(label, (counts.get(label) ?? 0) + 1);
+  }
+  return [...counts].map(([label, n]) => (n > 1 ? `${label} ×${n}` : label)).join(", ");
+}
 
 // Date math stays in UTC on plain YYYY-MM-DD strings so the grid matches the
 // file's Pacific dates no matter where the visitor is.
@@ -33,7 +55,6 @@ const formatDate = (iso: string) =>
 
 // Columns are Sunday-start weeks, ending with the week that contains data.end.
 function buildWeeks(data: ActivityData): Cell[][] {
-  const active = new Set(data.days);
   const last = parseDate(data.end);
   const first = new Date(last);
   first.setUTCDate(last.getUTCDate() - last.getUTCDay() - (WEEKS - 1) * 7);
@@ -45,7 +66,7 @@ function buildWeeks(data: ActivityData): Cell[][] {
       const date = new Date(first);
       date.setUTCDate(first.getUTCDate() + w * 7 + d);
       const key = isoDate(date);
-      week.push({ date: key, active: active.has(key), hidden: key < data.start || key > data.end });
+      week.push({ date: key, workouts: data.days[key] ?? [], hidden: key < data.start || key > data.end });
     }
     weeks.push(week);
   }
@@ -64,7 +85,7 @@ export default function ActivityGraph() {
   }, []);
 
   const weeks = useMemo(() => (data ? buildWeeks(data) : []), [data]);
-  const activeDays = data?.days.length ?? 0;
+  const activeDays = data ? Object.keys(data.days).length : 0;
 
   // Stay invisible until data arrives, and entirely if activity.json is missing.
   if (!data) return null;
@@ -104,7 +125,7 @@ export default function ActivityGraph() {
               key={cell.date}
               style={{ gridColumn: w + 2, gridRow: d + 1 }}
               className={`aspect-square rounded-[2px] ${
-                cell.hidden ? "invisible" : cell.active ? ACTIVE_CLASS : REST_CLASS
+                cell.hidden ? "invisible" : cell.workouts.length ? ACTIVE_CLASS : REST_CLASS
               }`}
               onMouseEnter={e => {
                 const box = e.currentTarget.getBoundingClientRect();
@@ -124,26 +145,12 @@ export default function ActivityGraph() {
             }}
           >
             <div className="font-semibold">{formatDate(hover.cell.date)}</div>
-            <div className="text-neutral-300">{hover.cell.active ? "Worked out" : "Rest day"}</div>
+            <div className="text-neutral-300">{hover.cell.workouts.length ? describeWorkouts(hover.cell.workouts) : "Rest day"}</div>
           </div>
         )}
       </div>
 
-      <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-neutral-500">
-        <span>
-          {activeDays} active days in the last year
-        </span>
-        <span className="flex items-center gap-3">
-          <span className="flex items-center gap-1">
-            <span className={`inline-block h-2.5 w-2.5 rounded-[2px] ${REST_CLASS}`} />
-            Rest
-          </span>
-          <span className="flex items-center gap-1">
-            <span className={`inline-block h-2.5 w-2.5 rounded-[2px] ${ACTIVE_CLASS}`} />
-            Workout
-          </span>
-        </span>
-      </div>
+      <div className="mt-2 text-center text-xs text-neutral-500">Activity</div>
     </div>
   );
 }

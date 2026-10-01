@@ -159,7 +159,7 @@ if (!existsSync(DB_FILE)) {
 }
 // Rebuild at startup so activity.json is current even before the next upload.
 const activity = await writeActivity(DB_FILE, ACTIVITY_FILE);
-console.log(`Wrote ${ACTIVITY_FILE} (${activity.days.length} active days)`);
+console.log(`Wrote ${ACTIVITY_FILE} (${Object.keys(activity.days).length} active days)`);
 
 createServer((req, res) => {
   handle(req, res).catch((err) => {
