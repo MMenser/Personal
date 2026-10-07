@@ -136,14 +136,6 @@ const AppPro: React.FC = () => {
                 Embedded + Full-stack
               </span>
             </div>
-            <div className="mt-2 flex flex-wrap gap-2">
-              <a
-                href="/?playful"
-                className="inline-block text-[11px] text-neutral-400 hover:text-neutral-600 border border-neutral-200 hover:border-neutral-400 rounded-full px-2.5 py-0.5 transition-colors"
-              >
-                Fun version
-              </a>
-            </div>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-4">
               <a href="https://github.com/MMenser" target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-1.5 text-sm text-neutral-500 hover:text-blue-600 transition-colors">
@@ -272,11 +264,8 @@ const AppPro: React.FC = () => {
         </section>
 
         {/* ===== FOOTER ===== */}
-        <footer className="pt-8 border-t border-neutral-100 flex justify-between items-center">
+        <footer className="pt-8 border-t border-neutral-100">
           <span className="text-neutral-300 text-sm">Mason Menser</span>
-          <a href="/?playful" className="text-neutral-300 hover:text-neutral-600 text-sm transition-colors">
-            &lt;- Playful version
-          </a>
         </footer>
 
       </div>

@@ -92,8 +92,6 @@ export default function ActivityGraph() {
   const [hover, setHover] = useState<{ cell: Cell; x: number; y: number } | null>(null);
 
   useEffect(() => {
-    // nginx sends no Cache-Control, so without this the browser may reuse a
-    // stale copy for hours. "no-cache" revalidates; unchanged files cost a 304.
     fetch("/activity.json", { cache: "no-cache" })
       .then(res => (res.ok ? res.json() : null))
       .then(setData)
@@ -169,9 +167,9 @@ export default function ActivityGraph() {
       <div className="mt-2 text-center text-xs text-neutral-500">
         <InfoTip
           align="center"
-          content="Days I worked out in the past year, tracked by my Apple Watch. My iPhone sends each workout to my Raspberry Pi, which turns them into this graph. Hover over a square to see the workout."
+          content="My workout history from the past year. Exported from a custom iOS app I had to make because Apple makes Health workout exports super hard and I didn't want to pay for a API or app to do it for me."
         >
-          Activity
+          Workouts
         </InfoTip>
       </div>
     </div>

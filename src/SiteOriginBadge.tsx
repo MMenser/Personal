@@ -16,12 +16,7 @@ const OPTIONS: { key: SiteOrigin; label: string; description: string }[] = [
   },
 ];
 
-interface Props {
-  className?: string;
-  align?: "left" | "right"; // which edge the info box lines up with
-}
-
-const SiteOriginBadge = ({ className = "", align = "left" }: Props) => (
+const SiteOriginBadge = ({ className = "" }: { className?: string }) => (
   <span className={`inline-flex items-center gap-2 ${className}`}>
     <span
       className={`h-2 w-2 rounded-full rec-blink ${
@@ -30,7 +25,6 @@ const SiteOriginBadge = ({ className = "", align = "left" }: Props) => (
       aria-hidden="true"
     />
     <InfoTip
-      align={align}
       content={OPTIONS.map(option => (
         <span key={option.key} className="block [&+&]:mt-2">
           <span className="font-semibold text-white">
