@@ -54,9 +54,22 @@ const isoDate = (d: Date) => d.toISOString().slice(0, 10);
 const formatDate = (iso: string) =>
   parseDate(iso).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 
-// Columns are Sunday-start weeks, ending with the week that contains data.end.
+const WINDOW_DAYS = 365;
+
+// Today in Pacific time, matching the file's dates.
+const pacificToday = () =>
+  new Intl.DateTimeFormat("en-CA", { timeZone: "America/Los_Angeles", year: "numeric", month: "2-digit", day: "2-digit" })
+    .format(new Date());
+
+// Columns are Sunday-start weeks, ending with the week that contains today.
+// The file is only rebuilt when a workout arrives, so days after data.end are
+// rest days, not missing data.
 function buildWeeks(data: ActivityData): Cell[][] {
-  const last = parseDate(data.end);
+  const end = pacificToday();
+  const last = parseDate(end);
+  const startDate = new Date(last);
+  startDate.setUTCDate(last.getUTCDate() - (WINDOW_DAYS - 1));
+  const start = isoDate(startDate);
   const first = new Date(last);
   first.setUTCDate(last.getUTCDate() - last.getUTCDay() - (WEEKS - 1) * 7);
 
@@ -67,7 +80,7 @@ function buildWeeks(data: ActivityData): Cell[][] {
       const date = new Date(first);
       date.setUTCDate(first.getUTCDate() + w * 7 + d);
       const key = isoDate(date);
-      week.push({ date: key, workouts: data.days[key] ?? [], hidden: key < data.start || key > data.end });
+      week.push({ date: key, workouts: data.days[key] ?? [], hidden: key < start || key > end });
     }
     weeks.push(week);
   }
@@ -79,14 +92,16 @@ export default function ActivityGraph() {
   const [hover, setHover] = useState<{ cell: Cell; x: number; y: number } | null>(null);
 
   useEffect(() => {
-    fetch("/activity.json")
+    // nginx sends no Cache-Control, so without this the browser may reuse a
+    // stale copy for hours. "no-cache" revalidates; unchanged files cost a 304.
+    fetch("/activity.json", { cache: "no-cache" })
       .then(res => (res.ok ? res.json() : null))
       .then(setData)
       .catch(() => setData(null));
   }, []);
 
   const weeks = useMemo(() => (data ? buildWeeks(data) : []), [data]);
-  const activeDays = data ? Object.keys(data.days).length : 0;
+  const activeDays = weeks.flat().filter(c => !c.hidden && c.workouts.length).length;
 
   // Stay invisible until data arrives, and entirely if activity.json is missing.
   if (!data) return null;
