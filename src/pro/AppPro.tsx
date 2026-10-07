@@ -193,9 +193,9 @@ const AppPro: React.FC = () => {
           <div className="mt-2 text-center text-xs text-neutral-500">
             <InfoTip
               align="center"
-              content="My GitHub contributions in the past year: commits, pull requests and issues. Darker squares mean more contributions that day. Chart by ghchart.rshah.org."
+              content="My code contributions to repos over the year. API by ghchart.rshah.org."
             >
-              GitHub
+              Code contributions
             </InfoTip>
           </div>
           <ActivityGraph />
