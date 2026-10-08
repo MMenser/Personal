@@ -77,30 +77,28 @@ const AppPro: React.FC = () => {
         </header>
 
         {/* ===== ABOUT ===== */}
-        <ProjectOrbit items={sortedProjects}>
-          <section className="mb-8">
-            <h2 className="text-[11px] font-bold uppercase tracking-widest text-blue-500 mb-3">
-              About
-            </h2>
-            <p className="text-[15px] text-neutral-600 leading-relaxed">
-              I'm a recent Washington State University graduate with a {hi("B.S. in Computer Science")} with minors in History and Math. Born and raised in the Seattle area, I enjoy nature, soccer, rock climbing, reading, and spending time with friends.
-            </p>
-            <img
-              src="https://ghchart.rshah.org/MMenser"
-              alt="GitHub contribution graph"
-              className="w-full mt-5 rounded"
-            />
-            <div className="mt-2 text-center text-xs text-neutral-500">
-              <InfoTip
-                align="center"
-                content="My GitHub contributions in the past year: commits, pull requests and issues. Darker squares mean more contributions that day. Chart by ghchart.rshah.org."
-              >
-                GitHub
-              </InfoTip>
-            </div>
-            <ActivityGraph />
-          </section>
-        </ProjectOrbit>
+        <section className="mb-8">
+          <h2 className="text-[11px] font-bold uppercase tracking-widest text-blue-500 mb-3">
+            About
+          </h2>
+          <p className="text-[15px] text-neutral-600 leading-relaxed">
+            I'm a recent Washington State University graduate with a {hi("B.S. in Computer Science")} with minors in History and Math. Born and raised in the Seattle area, I enjoy nature, soccer, rock climbing, reading, and spending time with friends.
+          </p>
+          <img
+            src="https://ghchart.rshah.org/MMenser"
+            alt="GitHub contribution graph"
+            className="w-full mt-5 rounded"
+          />
+          <div className="mt-2 text-center text-xs text-neutral-500">
+            <InfoTip
+              align="center"
+              content="My code contributions to repos over the year. API by ghchart.rshah.org."
+            >
+              Code contributions
+            </InfoTip>
+          </div>
+          <ActivityGraph />
+        </section>
 
         <hr className="border-neutral-100 my-7" />
 
