@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import InfoTip from "../InfoTip";
+import InfoTip from "./InfoTip";
 
 // Shape of /activity.json (see receiver/activity.mjs). Dates are Pacific time.
 interface ActivityData {
