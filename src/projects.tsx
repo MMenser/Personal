@@ -9,6 +9,7 @@ export interface Project {
   live?: string;
   demo?: string;
   tech: string[];
+  tags: string[];      // a few words on what kind of project it is, shown in the project list
   description: ReactNode;
 }
 
@@ -35,67 +36,74 @@ export const formatDateRange = (startDate: string, endDate: string | null): stri
 const projects: Project[] = [
   {
     id: "obd2",
-    title: "OBD2 Vehicle Telemetry Display",
+    title: "obd2 car scanner",
     startDate: "2026-01",
     endDate: "2026-02",
-    tech: ["C", "ESP-IDF", "FreeRTOS", "CAN", "SPI", "I2C"],
+    tech: ["C", "ESP32", "ESP-IDF", "FreeRTOS", "CAN", "SPI", "I2C"],
+    tags: ["embedded"],
     description: <>Real-time embedded telemetry system on {hi("ESP32")} using ESP-IDF to interface with vehicle OBD2 over {hi("CAN via SPI")}. Implemented CAN frame parsing to decode standard PIDs (RPM, coolant temp, etc.) and render live diagnostics to an {hi("I2C LED display")}. Developed concurrent firmware in C using {hi("FreeRTOS")} tasks for CAN polling and display updates.</>,
   },
   {
     id: "ml",
-    title: "AI/ML Composite Sandwich Panels",
+    title: "ml models that predict material stiffness",
     startDate: "2025-11",
     endDate: "2026-05",
     github: "https://github.com/MMenser/CMEC_SandwichPanel",
     tech: ["Python", "PyTorch", "Neural Networks", "Variational Autoencoder"],
+    tags: ["machine learning"],
     description: <>Developed {hi("MLP and cVAE models")} to predict and synthesize mechanical properties of wood composite sandwich panels. Both architectures achieved {hi("R^2 > 0.95")}. Paper forthcoming in collaboration with faculty and graduate students.</>,
   },
   {
     id: "potato",
-    title: "Embedded Potatoes",
+    title: "heating system to grow potatoes in",
     startDate: "2024-08",
     endDate: "2026-05",
     github: "https://github.com/MMenser/Smart-Farming",
     live: "https://potatoheatbox.live",
-    tech: ["C++", "Python", "Flask", "Nginx", "PostgreSQL"],
+    tech: ["C++", "Python", "React", "Flask", "Nginx", "PostgreSQL", "spi", "i2c", "typescript"],
+    tags: ["embedded & fullstack"],
     description: <>Designed a control system with {hi("Arduino")} and {hi("Raspberry Pi")} to study the effects of changing temperatures on potatoes in Eastern Washington. A companion web app lets users view and download sensor data and send commands to the control system via a Flask/PostgreSQL backend and React frontend. {hi("Deployed in the field.")}</>,
   },
   {
     id: "wiki",
-    title: "MashWiki",
+    title: "tiktok but with wikipedia articles",
     startDate: "2025-06",
     endDate: "2026-04",
     live: "https://mashwiki.com",
-    tech: ["React Native", "Node.js", "PostgreSQL", "Vector Embeddings"],
+    tech: ["React Native", "Node.js", "PostgreSQL", "embeddings", "ec2"],
+    tags: ["fullstack", "machine learning", "mobile"],
     description: <>Web and mobile application that recommends Wikipedia articles using {hi("view-history-based personalization")}, similar to YouTube's recommendation model. Uses vector embeddings for semantic similarity. iOS app forthcoming.</>,
   },
   {
     id: "p2p",
-    title: "P2P File Sharing",
+    title: "file sharing between peers",
     startDate: "2025-10",
     endDate: "2025-12",
     github: "https://github.com/MMenser/PeerFileSharing",
     demo: "https://youtu.be/KLlXYoRJ2I8",
     tech: ["C/C++", "Linux", "Networking", "TLS/SSL"],
+    tags: ["networking"],
     description: <>CLI application for LAN chat and {hi("encrypted file sharing")}. A central server handles peer discovery, after which peers connect directly via Linux sockets with a TLS/SSL handshake.</>,
   },
   {
     id: "capstone",
-    title: "Capstone Hop Selection App",
+    title: "iOS app for a beer brewing company",
     startDate: "2025-01",
     endDate: "2025-12",
     demo: "https://youtu.be/GN8Ow6xQoPU",
     tech: ["React Native", "PostgreSQL", "Node.js", "Docker"],
+    tags: ["iOS", "fullstack"],
     description: <>Enterprise {hi("iOS tablet application for Hopsteiner")} to digitize their hop selection process. Replaced an expensive third-party platform and streamlined workflows for hop breeders and selectors.</>,
   },
   {
     id: "spreadsheet",
-    title: "Spreadsheet Application",
+    title: "an excel clone",
     startDate: "2024-10",
     endDate: "2024-11",
     github: "https://github.com/MMenser/CptS321",
     demo: "https://youtu.be/XTe2DUVhncY",
     tech: ["C#", "XML"],
+    tags: ["desktop"],
     description: <>Fully-functioning spreadsheet application similar to Excel. Features {hi("formula evaluation, cell references, error-checking, undo/redo")}, customization, and XML save/load.</>,
   },
 ];

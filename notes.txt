@@ -1,0 +1,5 @@
+goals rows - list the goals and their deadlines. can be short and long term 
+
+send love button - tracks how many people have sent love
+
+concerts 

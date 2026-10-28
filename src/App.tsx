@@ -4,18 +4,39 @@ import SiteOriginBadge from "./SiteOriginBadge";
 import ActivityGraph from "./ActivityGraph";
 import InfoTip from "./InfoTip";
 import ProjectPage from "./ProjectPage";
-import { formatDateRange, sortedProjects } from "./projects";
+import SkillLink from "./SkillLink";
+import { sortedProjects } from "./projects";
 import { projectHref, useProjectRoute } from "./route";
 
 // Rows of short facts and links shown under my name, items separated by dots.
 // color is any CSS color; leave it out for the default gray.
 // Items with an href open in a new tab; icon shows before the text.
+// Other items link to the projects whose `tech` lists them (case-insensitive). By default
+// that's the item's text; set `tech` when the projects call it something else.
 interface TaglineItem {
   text: string;
   color?: string;
   href?: string;
   icon?: React.ReactNode;
+  tech?: string[];
 }
+
+// Project tag colors, matching the skill rows above. A tag like "embedded & fullstack"
+// colors each side of the "&" separately; tags not listed here stay gray.
+const TAG_COLORS: Record<string, string> = {
+  "embedded": "#C4261D",
+  "fullstack": "#2F6F2E",
+  "mobile": "#2F6F2E",
+  "iOS": "#2F6F2E",
+  "machine learning": "#7E22CE",
+  "networking": "#C2410C",
+  "desktop": "#0369A1",
+};
+
+const projectsUsing = (item: TaglineItem) => {
+  const names = (item.tech ?? [item.text]).map(n => n.toLowerCase());
+  return sortedProjects.filter(p => p.tech.some(t => names.includes(t.toLowerCase())));
+};
 
 const tagline: TaglineItem[][] = [
   [
@@ -23,7 +44,7 @@ const tagline: TaglineItem[][] = [
     { text: "computer science", color: "#2d5e13" },
   ],
   [
-    { text: "c/c++", color: "#0369A1" },
+    { text: "c/c++", color: "#0369A1", tech: ["C", "C++", "C/C++"] },
     { text: "python", color: "#0369A1" },
     { text: "typescript", color: "#0369A1" },
   ],
@@ -32,19 +53,19 @@ const tagline: TaglineItem[][] = [
     { text: "freertos", color: "#C4261D" },
     { text: "spi", color: "#C4261D" },
     { text: "i2c", color: "#C4261D" },
-    { text: "canbus", color: "#C4261D" },
+    { text: "canbus", color: "#C4261D", tech: ["CAN"] },
   ],
   [
     { text: "react", color: "#2F6F2E" },
     { text: "react native", color: "#2F6F2E" },
-    { text: "node", color: "#2F6F2E" },
+    { text: "node", color: "#2F6F2E", tech: ["Node.js"] },
     { text: "express", color: "#2F6F2E" },
     { text: "flask", color: "#2F6F2E" },
   ],
   [
     { text: "pytorch", color: "#7E22CE" },
     { text: "neural networks", color: "#7E22CE" },
-    { text: "vector embeddings", color: "#7E22CE" },
+    { text: "embeddings", color: "#7E22CE" },
   ],
   [
     { text: "ec2", color: "#C2410C" },
@@ -98,9 +119,9 @@ const App: React.FC = () => {
                           {item.icon}{item.text}
                         </a>
                       ) : (
-                        <span style={{ color: item.color }} className="flex items-center gap-1.5">
+                        <SkillLink color={item.color} projects={projectsUsing(item)}>
                           {item.icon}{item.text}
-                        </span>
+                        </SkillLink>
                       )}
                     </React.Fragment>
                   ))}
@@ -147,7 +168,17 @@ const App: React.FC = () => {
                   className="font-semibold text-blue-600 hover:text-blue-800 hover:underline transition-colors">
                   {p.title}
                 </a>
-                <span className="text-neutral-400 text-sm">{" - "}{formatDateRange(p.startDate, p.endDate)}</span>
+                {/* Tags hidden for now; uncomment to show them again.
+                {p.tags.map(tag => (
+                  <span key={tag} className="ml-3 text-sm text-neutral-500">
+                    {tag.split(" & ").map((part, i) => (
+                      <React.Fragment key={part}>
+                        {i > 0 && " & "}
+                        <span style={{ color: TAG_COLORS[part] }}>{part}</span>
+                      </React.Fragment>
+                    ))}
+                  </span>
+                ))} */}
               </li>
             ))}
           </ul>
